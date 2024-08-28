@@ -1,0 +1,66 @@
+.logo-container {
+    text-align: center;
+}
+
+.logo {
+    padding-top: 10px;
+    animation: fadein 1.2s;
+    width: 270px;
+}
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.row {
+    margin-top: 6px;
+}
+
+.panel-primary {
+    border-color: #333;
+}
+
+.panel-primary > .panel-heading {
+    background-color: #333;
+    border-color: #333;
+    color: #e0e0e0;
+}
+
+.savings-form {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+input[type="text"] {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+select {
+    background-color: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+label {
+    color: #e0e0e0;
+}
+
+h1, h3 {
+    color: #e0e0e0;
+}
+
+.panel-body {
+    background-color: #1e1e1e;
+}
+
+#savings-chart {
+    background-color: #1e1e1e;
+}
+
+#savings-results{
+    margin-top: 7px;
+}

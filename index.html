@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hamurabi</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css">
+    </head>
+  <body>
+    <div class="logo-container">
+        <img src="./website-icons/logo-with-text.png" class="logo" />
+    </div>
+    <div class="container">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#compound-interest">Calculadora de juros compostos</a></li>
+                <!-- <li><a data-toggle="tab" href="#other-tab">Other Tab</a></li> -->
+            </ul>
+
+            <div class="tab-content">
+                <div id="compound-interest" class="tab-pane fade in active">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Informação</h3>
+                                </div>
+                                <div class="panel-body">
+									<div class="row">
+                                        <div class="col-lg-12">
+											- Investimento inicial: montante que vais investir num primeiro momento.<br>
+											- Duração: tempo em anos que durará o investimento.<br>
+											- Reforço: montante que pretendes adicionar e a periodicidade.<br>
+											- Taxa de juro anual (TANB): a taxa que esperas ganhar com o teu investimento.<br>
+											<br>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <label for="start_amount">Investimento Inicial
+                                            <br>
+                                            <input type="text" value="10,000"  name="start_amount" size="8" id="start-amount" maxlength="8" class="savings-form">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <label for="years">Duração (Anos)
+                                            <br>
+                                            <input type="text" value="10" name="years" size="5" id="years" maxlength="2" class="savings-form">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <label for="contributions"> Reforço
+                                            <input type="text" value="100" name="contributions" size="8" id="contributions-amount" maxlength="7" class="savings-form">
+                                            <select id="contribution-rate" class="savings-form">
+                                                <option value="12">Mensal</option>
+                                                <option value="1">Anual</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <label for="interest">Taxa de juro anual (TANB)
+                                            <br>
+                                            <input type="text" value="4%"  name="interest" size="4" id="interest-rate-amount" maxlength="3" class="savings-form">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Análise</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <canvas id="savings-chart" style="height:400px; width: 500px" ></canvas>
+                                    <div id="savings-results"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/<div id="other-tab" class="tab-pane fade">
+                    <h3>Other Tab Content</h3>
+                    <p>Content for the other tab goes here.</p>
+                </div>-->
+            </div>
+        </div>	
+    <!--/ Container -->
+  </body>
+
+  <!-- Jquery -->
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+  <!-- Bootstrap Javascript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!-- Chart JS -->
+  <script src="chart.js"></script>
+  <!-- Custom Script for the Application -->
+  <script src="savings_calculator.js"></script>
+</html>
