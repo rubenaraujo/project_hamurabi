@@ -76,61 +76,61 @@ if ($("#savings-chart").length) {
 
     function calculateSavings() {
         // Get values from form
-        var P = $("#start-amount").val().replace(/[^\d\.]/g, '');
-        var t = $("#years").val();
-        var PMT = $("#contributions-amount").val().replace(/[^\d\.]/g, '');
-        var n = $("#contribution-rate").val();
-        var r_percentage = $("#interest-rate-amount").val().replace(/[^\d\.]/g, '');
-        var r = parseFloat(r_percentage) / 100.0;
-
+        var principal = $("#start-amount").val().replace(/[^\d\.]/g, '');
+        var years = $("#years").val();
+        var contributionAmount = $("#contributions-amount").val().replace(/[^\d\.]/g, '');
+        var contributionRate = $("#contribution-rate").val();
+        var interestRatePercentage = $("#interest-rate-amount").val().replace(/[^\d\.]/g, '');
+        var interestRate = parseFloat(interestRatePercentage) / 100.0;
+    
         // Push years into labels array within data array
         data.labels = [];
-
-        for (i = 0; i <= t; i++) {
+    
+        for (var i = 0; i <= years; i++) {
             data.labels.push(i);
         }
-
+    
         // Calculate values with and without interest
         data.datasets[0].data = [];
         data.datasets[1].data = [];
-        for (j = 0; j < data.labels.length; j++) {
-            var compound_interest_for_principal = P * (Math.pow(1 + r / n, n * j));
-            var a = Math.round(compound_interest_for_principal * 100) / 100;
-            var future_value_of_series = ((PMT * n) / r) * (Math.pow(1 + r / n, n * j) - 1)
-            var b = Math.round(future_value_of_series * 100) / 100;
-            var A = a + b
-            var A = A.toFixed(2);
-            var A = parseInt(A);
-
+        for (var j = 0; j < data.labels.length; j++) {
+            var compoundInterestForPrincipal = principal * (Math.pow(1 + interestRate / contributionRate, contributionRate * j));
+            var principalWithInterest = Math.round(compoundInterestForPrincipal * 100) / 100;
+            var futureValueOfSeries = ((contributionAmount * contributionRate) / interestRate) * (Math.pow(1 + interestRate / contributionRate, contributionRate * j) - 1);
+            var contributionsWithInterest = Math.round(futureValueOfSeries * 100) / 100;
+            var totalWithInterest = principalWithInterest + contributionsWithInterest;
+            totalWithInterest = totalWithInterest.toFixed(2);
+            totalWithInterest = parseInt(totalWithInterest);
+    
             if (data.datasets[0].data[j] === undefined) {
-                data.datasets[0].data[j] = A;
+                data.datasets[0].data[j] = totalWithInterest;
             }
         }
-        for (k = 0; k < data.labels.length; k++) {
-            var r = 0;
-            var principal_no_interest = P;
-            var a = Math.round(principal_no_interest * 100) / 100;
-            var monthly_no_interest = PMT * n * k;
-            var b = Math.round(monthly_no_interest * 100) / 100;
-            var A = a + b;
-            var A = A.toFixed(2);
-            var A = parseInt(A);
+        for (var k = 0; k < data.labels.length; k++) {
+            var noInterestRate = 0;
+            var principalNoInterest = principal;
+            var principalWithoutInterest = Math.round(principalNoInterest * 100) / 100;
+            var monthlyNoInterest = contributionAmount * contributionRate * k;
+            var contributionsWithoutInterest = Math.round(monthlyNoInterest * 100) / 100;
+            var totalWithoutInterest = principalWithoutInterest + contributionsWithoutInterest;
+            totalWithoutInterest = totalWithoutInterest.toFixed(2);
+            totalWithoutInterest = parseInt(totalWithoutInterest);
             if (data.datasets[1].data[k] === undefined) {
-                data.datasets[1].data[k] = A;
+                data.datasets[1].data[k] = totalWithoutInterest;
             }
         }
-
+    
         // Update chart and results
         savingsLineChart.update();
-
-        var last_year_sum_interest = data.datasets[0].data[data.datasets[0].data.length - 1];
-        var last_year_sum_no_interest = data.datasets[1].data[data.datasets[1].data.length - 1];
-
+    
+        var lastYearSumWithInterest = data.datasets[0].data[data.datasets[0].data.length - 1];
+        var lastYearSumWithoutInterest = data.datasets[1].data[data.datasets[1].data.length - 1];
+    
         $("#savings-results").empty();
-        if (n == 12) {
-            $("#savings-results").append("Após " + t + " anos de poupança a uma taxa de juro anual de " + r_percentage + "% e reforços mensais de €" + PMT + ", terias " + "<strong style='color: green'>€" + last_year_sum_interest + "</strong>" + ". Sem qualquer juro, teria apenas " + "<strong style='color:red'>€" + last_year_sum_no_interest + "</strong>" + ".");
-        } else if (n == 1) {
-            $("#savings-results").append("Após " + t + " anos de poupança a uma taxa de juro anual de " + r_percentage + "% e reforços anuais de €" + PMT + ", terias " + "<strong style='color: green'>€" + last_year_sum_interest + "</strong>" + ". Sem qualquer juro, teria apenas " + "<strong style='color:red'>€" + last_year_sum_no_interest + "</strong>" + ".");
+        if (contributionRate == 12) {
+            $("#savings-results").append("Após " + years + " anos de poupança a uma taxa de juro anual de " + interestRatePercentage + "% e reforços mensais de €" + contributionAmount + ", terias " + "<strong style='color: green'>€" + lastYearSumWithInterest + "</strong>" + ". Sem qualquer juro, teria apenas " + "<strong style='color:red'>€" + lastYearSumWithoutInterest + "</strong>" + ".");
+        } else if (contributionRate == 1) {
+            $("#savings-results").append("Após " + years + " anos de poupança a uma taxa de juro anual de " + interestRatePercentage + "% e reforços anuais de €" + contributionAmount + ", terias " + "<strong style='color: green'>€" + lastYearSumWithInterest + "</strong>" + ". Sem qualquer juro, teria apenas " + "<strong style='color:red'>€" + lastYearSumWithoutInterest + "</strong>" + ".");
         }
     }
 
