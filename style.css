@@ -8,6 +8,14 @@
     width: 270px;
 }
 
+.nav-tabs > li > a {
+    color: #e0e0e0;
+}
+
+.nav-tabs > li > a:hover {
+    color: black;
+}
+
 body {
     background-color: #121212;
     color: #e0e0e0;
