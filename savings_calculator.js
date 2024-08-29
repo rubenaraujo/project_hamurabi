@@ -76,12 +76,13 @@ if ($("#savings-chart").length) {
 
     function calculateSavings() {
         // Get values from form
-        var principal = $("#start-amount").val().replace(/[^\d\.]/g, '');
-        var years = $("#years").val();
-        var contributionAmount = $("#contributions-amount").val().replace(/[^\d\.]/g, '');
-        var contributionRate = $("#contribution-rate").val();
-        var interestRatePercentage = $("#interest-rate-amount").val().replace(/[^\d\.]/g, '');
-        var interestRate = parseFloat(interestRatePercentage) / 100.0;
+        var principal = parseFloat($("#start-amount").val().replace(/[^\d\.]/g, ''));
+        var years = parseInt($("#years").val());
+        var contributionAmount = parseFloat($("#contributions-amount").val().replace(/[^\d\.]/g, ''));
+        var contributionRate = parseInt($("#contribution-rate").val());
+        var interestRatePercentage = parseFloat($("#interest-rate-amount").val().replace(/[^\d\.]/g, ''));
+        var interestRate = interestRatePercentage / 100.0;
+        var compoundingFrequency = parseInt($("#compounding-frequency").val());
     
         // Push years into labels array within data array
         data.labels = [];
@@ -90,31 +91,32 @@ if ($("#savings-chart").length) {
             data.labels.push(i);
         }
     
-        // Calculate values with and without interest
+        // Calculate values with interest
         data.datasets[0].data = [];
         data.datasets[1].data = [];
         for (var j = 0; j < data.labels.length; j++) {
-            var compoundInterestForPrincipal = principal * (Math.pow(1 + interestRate / contributionRate, contributionRate * j));
+            var compoundInterestForPrincipal = principal * Math.pow(1 + interestRate / compoundingFrequency, compoundingFrequency * j);
             var principalWithInterest = Math.round(compoundInterestForPrincipal * 100) / 100;
-            var futureValueOfSeries = ((contributionAmount * contributionRate) / interestRate) * (Math.pow(1 + interestRate / contributionRate, contributionRate * j) - 1);
+            var futureValueOfSeries = (contributionAmount * contributionRate / interestRate) * (Math.pow(1 + interestRate / compoundingFrequency, compoundingFrequency * j) - 1);
             var contributionsWithInterest = Math.round(futureValueOfSeries * 100) / 100;
             var totalWithInterest = principalWithInterest + contributionsWithInterest;
             totalWithInterest = totalWithInterest.toFixed(2);
-            totalWithInterest = parseInt(totalWithInterest);
+            totalWithInterest = parseFloat(totalWithInterest);
     
             if (data.datasets[0].data[j] === undefined) {
                 data.datasets[0].data[j] = totalWithInterest;
             }
         }
+    
+        // Calculate values without interest
         for (var k = 0; k < data.labels.length; k++) {
-            var noInterestRate = 0;
             var principalNoInterest = principal;
             var principalWithoutInterest = Math.round(principalNoInterest * 100) / 100;
             var monthlyNoInterest = contributionAmount * contributionRate * k;
             var contributionsWithoutInterest = Math.round(monthlyNoInterest * 100) / 100;
             var totalWithoutInterest = principalWithoutInterest + contributionsWithoutInterest;
             totalWithoutInterest = totalWithoutInterest.toFixed(2);
-            totalWithoutInterest = parseInt(totalWithoutInterest);
+            totalWithoutInterest = parseFloat(totalWithoutInterest);
             if (data.datasets[1].data[k] === undefined) {
                 data.datasets[1].data[k] = totalWithoutInterest;
             }
@@ -133,9 +135,9 @@ if ($("#savings-chart").length) {
             $("#savings-results").append("Após " + years + " anos de poupança a uma taxa de juro anual de " + interestRatePercentage + "% e reforços anuais de €" + contributionAmount + ", terias " + "<strong style='color: green'>€" + lastYearSumWithInterest + "</strong>" + ". Sem qualquer juro, teria apenas " + "<strong style='color:red'>€" + lastYearSumWithoutInterest + "</strong>" + ".");
         }
     }
-
+    
     // Add event listeners
     document.addEventListener("DOMContentLoaded", calculateSavings);
     $(".savings-form").change(calculateSavings);
-
+    $("#compounding-frequency").change(calculateSavings);
 }
