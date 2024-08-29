@@ -29,18 +29,18 @@ if ($("#savings-chart").length) {
                 label: "Montante",
                 fill: false,
                 lineTension: 0.1,
-                backgroundColor: "rgb(255, 0, 0)",
-                borderColor: "rgb(255, 0, 0)",
+                backgroundColor: "rgb(100,136,234)",
+                borderColor: "rgb(100,136,234)",
                 borderCapStyle: 'butt',
                 borderDash: [],
                 borderDashOffset: 0.0,
                 borderJoinStyle: 'miter',
-                pointBorderColor: "rgb(255, 0, 0)",
+                pointBorderColor: "rgb(100,136,234)",
                 pointBackgroundColor: "#fff",
                 pointBorderWidth: 1,
                 pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgb(255, 0, 0)",
-                pointHoverBorderColor: "rgb(255, 0, 0)",
+                pointHoverBackgroundColor: "rgb(100,136,234)",
+                pointHoverBorderColor: "rgb(100,136,234)",
                 pointHoverBorderWidth: 2,
                 pointRadius: 5,
                 pointHitRadius: 10,
@@ -130,9 +130,9 @@ if ($("#savings-chart").length) {
     
         $("#savings-results").empty();
         if (contributionRate == 12) {
-            $("#savings-results").append("Após " + years + " anos de poupança a uma taxa de juro anual de " + interestRatePercentage + "% e reforços mensais de €" + contributionAmount + ", terias " + "<strong style='color: green'>€" + lastYearSumWithInterest + "</strong>" + ". Sem qualquer juro, teria apenas " + "<strong style='color:red'>€" + lastYearSumWithoutInterest + "</strong>" + ".");
+            $("#savings-results").append("Após " + years + " anos de poupança a uma taxa de juro anual de " + interestRatePercentage + "% e reforços mensais de €" + contributionAmount + ", terias " + "<strong style='color: green'>€" + lastYearSumWithInterest + "</strong>" + ". Sem qualquer juro, teria apenas " + "<strong style='color:rgb(100,136,234)'>€" + lastYearSumWithoutInterest + "</strong>" + ".");
         } else if (contributionRate == 1) {
-            $("#savings-results").append("Após " + years + " anos de poupança a uma taxa de juro anual de " + interestRatePercentage + "% e reforços anuais de €" + contributionAmount + ", terias " + "<strong style='color: green'>€" + lastYearSumWithInterest + "</strong>" + ". Sem qualquer juro, teria apenas " + "<strong style='color:red'>€" + lastYearSumWithoutInterest + "</strong>" + ".");
+            $("#savings-results").append("Após " + years + " anos de poupança a uma taxa de juro anual de " + interestRatePercentage + "% e reforços anuais de €" + contributionAmount + ", terias " + "<strong style='color: green'>€" + lastYearSumWithInterest + "</strong>" + ". Sem qualquer juro, teria apenas " + "<strong style='color:rgb(100,136,234)'>€" + lastYearSumWithoutInterest + "</strong>" + ".");
         }
     }
     

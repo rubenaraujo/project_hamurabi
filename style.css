@@ -81,8 +81,8 @@ h1, h3 {
     }
 
     .row {
-        margin-top: 8px;
-        font-size: 25px;
+        margin-top: 12px;
+        font-size: 28px;
     }
 
     .nav-tabs {
@@ -90,6 +90,10 @@ h1, h3 {
     }
 
     .logo {
-        width: 170px;
+        width: 35%;
+    }
+
+    #savings-chart {
+        margin-bottom: 28px;
     }
 }
