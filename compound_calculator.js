@@ -138,6 +138,6 @@ if ($("#savings-chart").length) {
     
     // Add event listeners
     document.addEventListener("DOMContentLoaded", calculateSavings);
-    $(".savings-form").change(calculateSavings);
+    $(".form").change(calculateSavings);
     $("#compounding-frequency").change(calculateSavings);
 }
