@@ -240,9 +240,10 @@ h3 {
   border-radius: 6px;
 }
 
-.form-container .form-submit-btn:hover {
+.form-submit-btn:hover {
   background-color: #fff;
   border-color: #fff;
+  color: #313131;
 }
 
 
