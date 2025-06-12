@@ -1,37 +1,98 @@
-# Projet Hamurabi
+# Hamurabi - Ferramentas Financeiras v2.0
 
-## Savings Calculator
+Hamurabi é uma aplicação web que oferece ferramentas financeiras interativas para ajudar na tomada de decisões financeiras informadas.
 
-This application includes a Savings Calculator that computes the future value of an investment with regular contributions over a specified period, considering compound interest. 
+## Funcionalidades
 
-### Key Features:
-- **Initial Investment (Principal):** The starting amount of money.
-- **Regular Contributions:** Monthly contributions added to the investment.
-- **Interest Rate:** The annual interest rate applied to the investment.
-- **Compounding Frequency:** The frequency at which the interest is compounded (quarterly, in this case).
-- **Time Period:** The total number of years over which the investment grows.
+### 1. Calculadora de Amortização de Crédito
 
-### Formulae Used
+Esta calculadora permite simular o impacto de amortizações regulares num crédito, mostrando:
 
-The calculator utilizes the following financial formulae to compute the future value:
+- **Poupança Total**: Quanto dinheiro poupa em juros ao fazer amortizações regulares
+- **Redução do Prazo**: Quantos anos reduz do prazo do crédito
+- **Tempo Poupado**: Exatamente quantos anos e meses economiza ao fazer amortizações regulares
+- **Visualização Gráfica**: Comparação visual entre o cenário com e sem amortizações extras
+- **Tabela Detalhada**: Evolução anual do capital em dívida, juros pagos e amortizações
 
-1. **Future Value of the Initial Investment (P):**
+#### Fórmula Utilizada
 
-   <img src="http://www.sciweavers.org/tex2img.php?eq=%0AA%20%3D%20P%20%5Cleft%281%20%2B%20%5Cfrac%7Br%7D%7Bn%7D%5Cright%29%5E%7Bnt%7D&bc=Black&fc=White&im=jpg&fs=18&ff=arev&edit=0" align="center" border="0" alt="A = P \left(1 + \frac{r}{n}\right)^{nt}" width="190" height="42" />
+Para calcular a prestação mensal:
+```
+PMT = P × [r × (1 + r)^n] / [(1 + r)^n - 1]
+```
+Onde:
+- PMT = Prestação mensal
+- P = Montante inicial do empréstimo
+- r = Taxa de juro mensal (taxa anual / 12 / 100)
+- n = Número total de prestações (prazo em anos × 12)
 
-   - \(P\): Initial investment (Principal)
-   - \(r\): Annual interest rate (decimal)
-   - \(n\): Number of compounding periods per year (quarterly compounding means \(n = 4\))
-   - \(t\): Time in years
-   - \(A\): Future value of the initial investment
+### 2. Calculadora de Juros Compostos
 
-2. **Future Value of the Regular Contributions (PMT):**
+Esta calculadora permite simular o crescimento de um investimento ao longo do tempo com juros compostos, mostrando:
 
-   <img src="http://www.sciweavers.org/tex2img.php?eq=FV_%7B%5Ctext%7Bcontributions%7D%7D%20%3D%20PMT%20%5Ctimes%20%5Csum_%7Bm%3D1%7D%5E%7B12%20%5Ctimes%20t%7D%20%5Cleft%281%20%2B%20%5Cfrac%7Br%7D%7Bn%7D%5Cright%29%5E%7Bn%20%5Ctimes%20%28t%20-%20%5Cfrac%7Bm%7D%7B12%7D%29%7D&bc=Black&fc=White&im=jpg&fs=12&ff=arev&edit=0" align="center" border="0" alt="FV_{\text{contributions}} = PMT \times \sum_{m=1}^{12 \times t} \left(1 + \frac{r}{n}\right)^{n \times (t - \frac{m}{12})}" width="347" height="54" />
+- **Montante Final**: Valor total acumulado no final do período
+- **Juros Ganhos**: Quanto dinheiro ganhou em juros
+- **Visualização Gráfica**: Evolução do montante total, contribuições e juros ao longo do tempo
+- **Tabela Detalhada**: Valores anuais de contribuições, juros e montante total
+- **Frequência de Contribuição**: Escolha entre contribuições mensais, trimestrais, semestrais ou anuais
+- **Frequência de Composição dos Juros**: Escolha entre capitalização mensal, trimestral, semestral ou anual
 
-   - \(PMT\): Monthly contribution amount
-   - \(m\): Month index, representing each contribution month
-   - \(r\): Annual interest rate (decimal)
-   - \(n\): Number of compounding periods per year
-   - \(t\): Time in years
-   - \(FV_{\text{contributions}}\): Future value of the series of contributions
+#### Fórmula Utilizada
+
+A calculadora utiliza a fórmula matemática padrão para juros compostos com contribuições periódicas:
+
+```
+FV = P × (1 + r/m)^(m×t) + PMT × [(1 + r/m)^(m×t) - 1] / (r/m)
+```
+
+Onde:
+- FV = Valor futuro (montante final)
+- P = Montante inicial
+- PMT = Contribuição regular
+- r = Taxa de juro anual (em decimal)
+- m = Número de períodos de composição por ano
+- t = Tempo em anos
+
+Esta fórmula garante que:
+1. Quanto maior a frequência de composição (m), maior o montante final (FV)
+2. A ordem correta de rendimento é: mensal > trimestral > semestral > anual
+
+
+### 3. Calculadora de Objetivos Financeiros
+
+Esta calculadora permite determinar quanto precisa poupar regularmente para atingir um objetivo financeiro específico, mostrando:
+
+- **Contribuição Necessária**: Quanto precisa poupar regularmente para atingir o objetivo
+- **Montante Total Poupado**: Valor total acumulado no final do período
+- **Visualização Gráfica**: Evolução do montante acumulado em relação ao objetivo
+- **Tabela Detalhada**: Valores anuais de contribuições, rendimentos e montante acumulado
+- **Frequência de Contribuição**: Escolha entre contribuições mensais, trimestrais, semestrais ou anuais
+- **Frequência de Composição dos Juros**: Escolha entre capitalização mensal, trimestral, semestral ou anual
+- **Opção de Juros Compostos**: Possibilidade de alternar entre cálculos com juros simples ou compostos
+
+#### Fórmula Utilizada
+
+Para calcular a contribuição necessária com juros compostos, a calculadora utiliza um método iterativo que considera as diferentes frequências de contribuição e composição:
+
+1. Estima uma contribuição inicial usando a fórmula aproximada:
+   ```
+   PMT = (FV - P × (1 + r/m)^(m×t)) / ((1 + r/m)^(m×t) - 1) × (r/m)
+   ```
+
+2. Refina esta estimativa através de simulações sucessivas até encontrar o valor exato que atinge o objetivo no prazo definido.
+
+Onde:
+- PMT = Contribuição regular necessária
+- FV = Valor futuro (montante objetivo)
+- P = Montante inicial
+- r = Taxa de juro anual (em decimal)
+- m = Número de períodos de composição por ano
+- t = Tempo em anos
+
+Para juros simples:
+```
+PMT = (FV - P - (P × r × t)) / (n)
+```
+Onde n é o número total de contribuições ao longo do período.
+
+A implementação considera a sincronização precisa entre os momentos de contribuição e os momentos de composição dos juros, garantindo resultados exatos independentemente das combinações de frequências escolhidas.

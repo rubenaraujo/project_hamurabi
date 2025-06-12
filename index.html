@@ -1,251 +1,307 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Hamurabi</title>
-    <link rel="shortcut icon" type="image/png" href="./website-icons/logo-no-text.png" />
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" sizes="32x32" href="./website-icons/logo-no-text.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./website-icons/logo-no-text.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamurabi - Ferramentas Financeiras</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-    <div class="logo-container">
-        <img src="./website-icons/logo-with-text.png" class="logo" />
-    </div>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/logo.png" alt="Hamurabi Logo" class="site-logo">
+                <h1>Hamurabi</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#calculadora-amortizacao">Amortização</a></li>
+                    <li><a href="#calculadora-juros">Juros Compostos</a></li>
+                    <li><a href="#calculadora-objetivos">Objetivos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    <div class="container">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#compound-interest"><i
-                        class="fas fa-chart-line"></i>&nbsp;&nbsp;Juros compostos</a></li>
-            <li><a id="payoff-tab" data-toggle="tab" href="#payoff"><i
-                        class="fas fa-piggy-bank"></i>&nbsp;&nbsp;Amortização</a></li>
-        </ul>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h2>Ferramentas Financeiras Inteligentes</h2>
+                <div class="hero-buttons">
+                    <a href="#calculadora-amortizacao" class="btn">Calculadora de Amortização</a>
+                    <a href="#calculadora-juros" class="btn">Calculadora de Juros Compostos</a>
+                    <a href="#calculadora-objetivos" class="btn">Calculadora de Objetivos</a>
+                </div>
+            </div>
+        </section>
 
-        <div class="tab-content">
-            <div id="compound-interest" class="tab-pane fade in active">
-                <div class="row">
-                    <div class="col-xs-12 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Informação</h3>
+        <section id="calculadora-amortizacao" class="calculator-section">
+            <div class="container">
+                <h2>Calculadora de Amortização de Crédito</h2>
+                <p>Descubra quanto pode poupar ao fazer amortizações regulares no seu crédito</p>
+                
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="montanteInicial">Montante Inicial (€)</label>
+                            <input type="number" id="montanteInicial" min="1000" value="150000">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="taxaJuro">Taxa de Juro Anual (%)</label>
+                            <input type="number" id="taxaJuro" min="0.1" step="0.1" value="3.5">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="prazoAnos">Prazo (Anos)</label>
+                            <input type="number" id="prazoAnos" min="1" max="50" value="30">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="amortizacaoRegular">Amortização Regular (€)</label>
+                            <input type="number" id="amortizacaoRegular" min="0" value="2000">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="frequenciaAmortizacao">Frequência de Amortização</label>
+                            <select id="frequenciaAmortizacao">
+                                <option value="anual" selected>Anual</option>
+                                <option value="mensal">Mensal</option>
+                            </select>
+                        </div>
+                        
+                        <button id="calcular" class="btn">Calcular</button>
+                    </div>
+                    
+                    <div class="calculator-results">
+                        <div class="results-summary">
+                            <div class="result-item">
+                                <h3>Poupança Total</h3>
+                                <p id="poupancaTotal">0 €</p>
                             </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        - Investimento inicial: montante que vais investir num primeiro momento.<br>
-                                        - Duração: tempo em anos que durará o investimento.<br>
-                                        - Reforço: montante que pretendes adicionar e a periodicidade.<br>
-                                        - Taxa de juro anual (TANB): a taxa que esperas ganhar com o teu
-                                        investimento.<br>
-                                        - Os juros são compostos: a periodicidade com que os juros são calculados.<br>
-                                        <br>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="start_amount">Investimento Inicial
-                                            <br>
-                                            <input type="text" value="10,000" name="start_amount" size="8"
-                                                id="start-amount" maxlength="8" class="form">
-                                            €
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="years">Duração (Anos)
-                                            <br>
-                                            <input type="text" value="10" name="years" size="5" id="years" maxlength="2"
-                                                class="form">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="contributions"> Reforço de
-                                            <input type="text" value="100" name="contributions" size="8"
-                                                id="contributions-amount" maxlength="7" class="form">
-                                            <select id="contribution-rate" class="form">
-                                                <option value="12">Mensal</option>
-                                                <option value="1">Anual</option>
-                                            </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="interest">Taxa de juro anual (TANB)
-                                            <br>
-                                            <input type="text" value="4%" name="interest" size="5"
-                                                id="interest-rate-amount" maxlength="5" class="form">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <label for="compounding-frequency">Os juros são compostos
-                                            <br>
-                                            <select id="compounding-frequency">
-                                                <option value="12">Mensalmente</option>
-                                                <option value="4">Trimestralmente</option>
-                                                <option value="2">Semestralmente</option>
-                                                <option value="1">Anualmente</option>
-                                            </select>
-                                    </div>
-                                </div>
+                            <div class="result-item">
+                                <h3>Redução do Prazo</h3>
+                                <p id="reducaoPrazo">0 anos</p>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-md-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Análise</h3>
-                            </div>
-                            <div class="panel-body">
-                                <canvas id="savings-chart" style="height:400px; width: 500px"></canvas>
-                                <div id="savings-results"></div>
-                            </div>
+                        
+                        <div class="tempo-poupado-container">
+                            <p id="tempoPoupado" class="tempo-poupado-mensagem"></p>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="amortizacaoChart"></canvas>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <button id="toggleTable" class="btn-secondary">Ver Tabela Detalhada</button>
+                        </div>
+                        
+                        <div id="tableContainer" class="table-container hidden">
+                            <table id="amortizacaoTable">
+                                <thead>
+                                    <tr>
+                                        <th>Ano</th>
+                                        <th>Prestação Mensal</th>
+                                        <th>Capital em Dívida</th>
+                                        <th>Juros Pagos</th>
+                                        <th>Amortização</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Preenchido via JavaScript -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="payoff" class="tab-pane fade">
-                <div class="row flex-container">
-                    <div id="left-side" class="col-xs-12 col-md-8">
-                        <div class="panel panel-primary">
-                            <div class="panel-body">
-                                <div class="flex-container">
-                                    <div class="card">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 58" class="image">
-                                            <g fill-rule="evenodd" fill="none" id="Page-1">
-                                                <g fill-rule="nonzero" id="059---Money-Bag">
-                                                    <path fill="#f29c1f"
-                                                        d="m23 16.98v-9.98c0-1.66-2.91-3-6.5-3s-6.5 1.34-6.5 3v11.01c-3.36.12-6 1.41-6 2.99v26.23c-2.35.45-4 1.52-4 2.77v5c0 1.66 2.91 3 6.5 3s6.5-1.34 6.5-3v-2c0 1.66 2.91 3 6.5 3s6.5-1.34 6.5-3l.5-13z"
-                                                        id="Shape"></path>
-                                                    <path fill="#f3d55b"
-                                                        d="m54.527 13.355c-.072-.108-1.461-2.092-5.5-3 1.0331933-.84954961 1.6441867-2.10769199 1.673-3.445 0-2.358-2.006-4.417-4.769-4.895-.5372791-.08053169-1.0405693.28263221-1.1334952.81790692s.2585108 1.04682267.7914952 1.15209308c1.798.315 3.111 1.542 3.111 2.925 0 1.638-1.775 2.984-4 3-.8755119.01021562-1.7370699-.21978683-2.491-.665-.4719273-.28691192-1.0870881-.13692731-1.374.33500001-.2869119.47192729-.1369273 1.08708809.335 1.37399999 1.0594655.6270481 2.2688888.9556657 3.5.951.01 0 .017.005.026.005 6.213 0 8.124 2.5 8.176 2.567.200426.2958159.5434432.4622351.8998403.436569.356397-.025666.6720289-.239518.828-.561.155971-.3214819.1285857-.7017531-.0718403-.997569z"
-                                                        id="Shape"></path>
-                                                    <path fill="#a56a43"
-                                                        d="m45.19 52h-19.19v-12c0-1.66-2.91-3-6.5-3-.8387701-.0034358-1.6759363.0735835-2.5.23v-10.89c1.4565382-3.4367258 3.4852949-6.6015863 6-9.36v-.01c2.0874104-2.3329398 4.5726948-4.2764728 7.34-5.74v-.01c.8551132.5204315 1.8390235.7906603 2.84.78h5.6c1.0050057.0070139 1.9920265-.2665813 2.85-.79 2.18 1.08 12.01 6.72 15.56 21.79 4 17-8 19-12 19z"
-                                                        id="Shape"></path>
-                                                    <path fill="#fdd7ad"
-                                                        d="m45.19 49c-.5522847 0-1-.4477153-1-1s.4477153-1 1-1c.723 0 4.425-.125 6.376-2.589.9225786-1.3035875 1.4145252-2.8629918 1.407-4.46.0332885-.5485091.4978261-.970453 1.047-.951.2649656.0126906.5140321.1301392.6923876.326499.1783554.1963597.2713838.4555393.2586124.720501-.0084762 2.0150456-.6508108 3.9763353-1.836 5.606-2.524 3.186-7.061 3.347-7.945 3.347z"
-                                                        id="Shape"></path>
-                                                    <path fill="#805333"
-                                                        d="m46 1.17c.01 2.2-.43 7-3.95 9.75-.1318612.1079533-.2723293.2049432-.42.29-.8579735.5234187-1.8449943.7970139-2.85.79h-5.6c-1.0009765.0106603-1.9848868-.2595685-2.84-.78-.1495192-.0908277-.2931396-.191028-.43-.3-3.52-2.75-3.95-7.55-3.95-9.75.0016568-.33258473.1685567-.6425818.4452874-.8270689.2767306-.18448711.6270741-.21931899.9347126-.0929311 1.28.54 1.71 1.75 3.65 1.75 2.49 0 2.49-2 4.98-2s2.5 2 5 2c1.94 0 2.37-1.22 3.65-1.75.3076385-.12638789.657982-.09155601.9347126.0929311.2767307.1844871.4436306.49448417.4452874.8270689z"
-                                                        id="Shape"></path>
-                                                    <path fill="#603e26"
-                                                        d="m36.45 11.982c1.164119-1.6359812 2.0400633-3.45889226 2.59-5.39.1491169-.53295478.7020452-.84411688 1.235-.695s.8441169.70204522.695 1.235c-.545409 1.83131833-1.3359015 3.5804932-2.35 5.2l3.34 3.12c.4031679.3783151.423315 1.0118321.045 1.415-.3783151.4031678-1.0118321.423315-1.415.045l-3.59-3.35v3.3c0 .5522847-.4477153 1-1 1s-1-.4477153-1-1v-3.3l-3.58 3.35c-.1844231.1726652-.4273651.2691275-.68.27-.2800466-.0009897-.5474685-.1166316-.74-.32-.3709419-.4048785-.3486888-1.0324134.05-1.41l3.35-3.12c-1.0179074-1.618792-1.8117948-3.36803545-2.36-5.2-.0704836-.2559398-.0363072-.52940237.0949974-.76012341.1313047-.23072105.3489609-.3997642.6050026-.46987659.2546559-.07392838.5283328-.04249768.7595988.08723693.231266.1297346.4007475.34690489.4704012.60276307.5569409 1.93085241 1.4433119 3.7509576 2.62 5.38z"
-                                                        id="Shape"></path>
-                                                    <path fill="#f0c419"
-                                                        d="m17 21c0 1.66-2.91 3-6.5 3s-6.5-1.34-6.5-3c0-1.58 2.64-2.87 6-2.99.17-.01.33-.01.5-.01 3.59 0 6.5 1.34 6.5 3z"
-                                                        id="Shape"></path>
-                                                    <path fill="#e57e25"
-                                                        d="m23 7v9.98c-2.5147051 2.7584137-4.5434618 5.9232742-6 9.36v-5.34c0-1.66-2.91-3-6.5-3-.17 0-.33 0-.5.01v-11.01c0 1.66 2.91 3 6.5 3s6.5-1.34 6.5-3z"
-                                                        id="Shape"></path>
-                                                    <path fill="#f9eab0"
-                                                        d="m13 50c0 1.66-2.91 3-6.5 3s-6.5-1.34-6.5-3c0-1.25 1.65-2.32 4-2.77.82406367-.1564165 1.66122992-.2334358 2.5-.23 3.59 0 6.5 1.34 6.5 3z"
-                                                        id="Shape"></path>
-                                                    <path fill="#f3d55b"
-                                                        d="m13 50v5c0 1.66-2.91 3-6.5 3s-6.5-1.34-6.5-3v-5c0 1.66 2.91 3 6.5 3s6.5-1.34 6.5-3z"
-                                                        id="Shape"></path>
-                                                    <path fill="#f3d55b"
-                                                        d="m26 40c0 1.66-2.91 3-6.5 3s-6.5-1.34-6.5-3c0-1.25 1.65-2.32 4-2.77.8240637-.1564165 1.6612299-.2334358 2.5-.23 3.59 0 6.5 1.34 6.5 3z"
-                                                        id="Shape"></path>
-                                                    <path fill="#f0c419"
-                                                        d="m26 40v13c0 1.66-2.91 3-6.5 3s-6.5-1.34-6.5-3v-13c0 1.66 2.91 3 6.5 3s6.5-1.34 6.5-3z"
-                                                        id="Shape"></path>
-                                                    <path fill="#fdd7ad"
-                                                        d="m39 27c0 .5522847.4477153 1 1 1s1-.4477153 1-1c0-2.209139-1.790861-4-4-4v-1c0-.5522847-.4477153-1-1-1s-1 .4477153-1 1v1c-2.209139 0-4 1.790861-4 4s1.790861 4 4 4v4c-1.1045695 0-2-.8954305-2-2 0-.5522847-.4477153-1-1-1s-1 .4477153-1 1c0 2.209139 1.790861 4 4 4v1c0 .5522847.4477153 1 1 1s1-.4477153 1-1v-1c2.209139 0 4-1.790861 4-4s-1.790861-4-4-4v-4c1.1045695 0 2 .8954305 2 2zm0 6c0 1.1045695-.8954305 2-2 2v-4c1.1045695 0 2 .8954305 2 2zm-4-4c-1.1045695 0-2-.8954305-2-2s.8954305-2 2-2z"
-                                                        id="Shape"></path>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                        <p class="h1"> Calculadora de amortização de dívida </p>
-                                        <p class="p"> <strong>Valor do empréstimo</strong>: é o valor total do
-                                            empréstimo
-                                            que foi contraído. </p>
-                                        <p class="p"> <strong>Prestações em falta</strong>: é o número de prestações que
-                                            ainda faltam pagar. </p>
-                                        <p class="p"> <strong>Amortização Anual</strong>: é o valor que é pago
-                                            anualmente
-                                            para amortizar o valor em dívida. </p>
-                                        <p class="p"> <strong>Taxa da Euribor</strong>: é a taxa de juro que é aplicada
-                                            ao
-                                            empréstimo. </p>
-                                        <p class="p"> <strong>Spread</strong>: é a margem que o banco cobra sobre a taxa
-                                            da
-                                            Euribor. </p>
-                                    </div>
+        </section>
 
-                                    <div class="form-container">
-                                        <form class="form">
-                                            <div class="form-group">
-                                                <label for="debt_amount">Valor do empréstimo</label>
-                                                <input type="text" type="text" value="100,000" name="debt_amount"
-                                                    size="8" id="debt-amount" maxlength="8" required="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="installments">Prestações em falta</label>
-                                                <input type="text" value="480" name="installments" size="5"
-                                                    id="installments" maxlength="3" required="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="amortization">Amortização Anual</label>
-                                                <input type="text" value="1200" name="amortization" size="8"
-                                                    id="amortization" maxlength="7" required="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="interest">Taxa da Euribor</label>
-                                                <input type="text" value="3.5%" name="interest" size="5" id="euribor"
-                                                    maxlength="5" required="">
-                                            </div>
-                                            <div class="form-group
-                                          ">
-                                                <label for="spread">Spread</label>
-                                                <input type="text" value="1%" name="spread" size="5" id="spread"
-                                                    maxlength="3" required="">
-                                            </div>
-                                            <button id="calculate-button" class="form-submit-btn"
-                                                type="button">Calcular</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-
+        <section id="calculadora-juros" class="calculator-section">
+            <div class="container">
+                <h2>Calculadora de Juros Compostos</h2>
+                <p>Calcule o crescimento do seu investimento ao longo do tempo com juros compostos</p>
+                
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="montanteInicialJuros">Montante Inicial (€)</label>
+                            <input type="number" id="montanteInicialJuros" min="0" value="10000">
                         </div>
+                        
+                        <div class="input-group">
+                            <label for="contribuicaoRegular">Contribuição Regular (€)</label>
+                            <input type="number" id="contribuicaoRegular" min="0" value="200">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="frequenciaContribuicao">Frequência de Contribuição</label>
+                            <select id="frequenciaContribuicao">
+                                <option value="mensal" selected>Mensal</option>
+                                <option value="trimestral">Trimestral</option>
+                                <option value="semestral">Semestral</option>
+                                <option value="anual">Anual</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="taxaJurosAnual">Taxa de Juro Anual (%)</label>
+                            <input type="number" id="taxaJurosAnual" min="0.1" step="0.1" value="5">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="frequenciaComposicaoJuros">Frequência de Composição dos Juros</label>
+                            <select id="frequenciaComposicaoJuros">
+                                <option value="mensal" selected>Mensal</option>
+                                <option value="trimestral">Trimestral</option>
+                                <option value="semestral">Semestral</option>
+                                <option value="anual">Anual</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="periodoAnos">Período (Anos)</label>
+                            <input type="number" id="periodoAnos" min="1" max="50" value="20">
+                        </div>
+                        
+                        <button id="calcularJuros" class="btn">Calcular</button>
                     </div>
-                    <div id="right-side" class="col-xs-12 col-md-4">
-                        <div id="savings-results" class="result-card-container">
-                            <div class="result-card">
-                                <p id="savings-amount" class="savings"></p>
-                                <p id="info" class="info"></p>
+                    
+                    <div class="calculator-results">
+                        <div class="results-summary">
+                            <div class="result-item">
+                                <h3>Montante Final</h3>
+                                <p id="montanteFinal">0 €</p>
                             </div>
+                            <div class="result-item">
+                                <h3>Juros Ganhos</h3>
+                                <p id="jurosGanhos">0 €</p>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="jurosCompostosChart"></canvas>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <button id="toggleJurosTable" class="btn-secondary">Ver Tabela Detalhada</button>
+                        </div>
+                        
+                        <div id="jurosTableContainer" class="table-container hidden">
+                            <table id="jurosCompostosTable">
+                                <thead>
+                                    <tr>
+                                        <th>Ano</th>
+                                        <th>Contribuições</th>
+                                        <th>Juros</th>
+                                        <th>Montante Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Preenchido via JavaScript -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <section id="calculadora-objetivos" class="calculator-section">
+            <div class="container">
+                <h2>Calculadora de Objetivos Financeiros</h2>
+                <p>Descubra quanto precisa poupar regularmente para atingir o seu objetivo financeiro</p>
+                
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="montanteObjetivo">Montante Objetivo (€)</label>
+                            <input type="number" id="montanteObjetivo" min="1000" value="100000">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="montanteInicialObjetivo">Montante Inicial (€)</label>
+                            <input type="number" id="montanteInicialObjetivo" min="0" value="10000">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="prazoObjetivo">Prazo (Anos)</label>
+                            <input type="number" id="prazoObjetivo" min="1" max="50" value="10">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="taxaJuroObjetivo">Taxa de Rendimento Anual (%)</label>
+                            <input type="number" id="taxaJuroObjetivo" min="0" step="0.1" value="4">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="frequenciaContribuicaoObjetivo">Frequência de Contribuição</label>
+                            <select id="frequenciaContribuicaoObjetivo">
+                                <option value="mensal" selected>Mensal</option>
+                                <option value="trimestral">Trimestral</option>
+                                <option value="semestral">Semestral</option>
+                                <option value="anual">Anual</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="frequenciaComposicaoJurosObjetivo">Frequência de Composição dos Juros</label>
+                            <select id="frequenciaComposicaoJurosObjetivo">
+                                <option value="mensal" selected>Mensal</option>
+                                <option value="trimestral">Trimestral</option>
+                                <option value="semestral">Semestral</option>
+                                <option value="anual">Anual</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group checkbox-group">
+                            <label for="jurosCompostosObjetivo">
+                                <input type="checkbox" id="jurosCompostosObjetivo" checked>
+                                Aplicar Juros Compostos
+                            </label>
+                        </div>
+                        
+                        <button id="calcularObjetivo" class="btn">Calcular</button>
+                    </div>
+                    
+                    <div class="calculator-results">
+                        <div class="results-summary">
+                            <div class="result-item">
+                                <h3>Contribuição Necessária</h3>
+                                <p id="contribuicaoNecessaria">0 €</p>
+                            </div>
+                            <div class="result-item">
+                                <h3>Montante Total Poupado</h3>
+                                <p id="montanteTotalPoupado">0 €</p>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="objetivosChart"></canvas>
+                        </div>
+                        
+                        <div class="toggle-container">
+                            <!-- Botão de tabela detalhada removido conforme solicitado -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Hamurabi - Developed by Ruben</p>
         </div>
-    </div>
-        <div class="footer">
-            <small>
-                developed by Ruben Araujo
-            </small>
-        </div>
-    <!--/ Container -->
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/calculator.js"></script>
 </body>
-
-<!-- Jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"
-    integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-<!-- Bootstrap Javascript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<!-- Chart JS -->
-<script src="chart.js"></script>
-<!-- Custom Script for the Application -->
-<script src="compound_calculator.js"></script>
-<script src="payoff_calculator.js"></script>
-
 </html>
