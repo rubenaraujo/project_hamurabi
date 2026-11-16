@@ -1,98 +1,63 @@
-# Hamurabi - Ferramentas Financeiras v2.0
+# Hamurabi - Ferramentas Financeiras
 
-Hamurabi é uma aplicação web que oferece ferramentas financeiras interativas para ajudar na tomada de decisões financeiras informadas.
+Simuladores financeiros em HTML, CSS e JavaScript puros (sem registo, sem servidor). Todos os cálculos acontecem no navegador.
+
+Site: https://rubenaraujo.github.io/project_hamurabi/
+
+## Ferramentas
+
+| Ferramenta | O que faz |
+| --- | --- |
+| Crédito habitação | Prestação, total de juros, TAEG e teste de stress da Euribor (taxa fixa ou variável) |
+| Amortização de crédito | Poupança em juros e prazo com amortizações regulares; Euribor variável |
+| Investir ou amortizar | Compara o património final nas duas opções e calcula o rendimento de equilíbrio |
+| Juros compostos | Crescimento com contribuições, inflação (valor real) e comparação de cenários |
+| Objetivos financeiros | Contribuição necessária, com objetivo ajustado à inflação |
+| Poupança para a reforma | Capital na reforma vs. capital necessário, em euros de hoje |
+| Fundo de emergência | Meta, cobertura atual e tempo até atingir |
 
 ## Funcionalidades
 
-### 1. Calculadora de Amortização de Crédito
+- Resultados em tempo real, com sliders e tabelas anuais/mensais
+- Partilha por ligação (valores na URL), simulações guardadas (localStorage)
+- Exportação CSV e impressão / PDF
+- Tema claro e escuro; português e inglês
+- PWA (funciona offline) e SEO (Open Graph, JSON-LD)
+- Acessibilidade: ligação "saltar para o conteúdo", `aria-live`, navegação por teclado
 
-Esta calculadora permite simular o impacto de amortizações regulares num crédito, mostrando:
-
-- **Poupança Total**: Quanto dinheiro poupa em juros ao fazer amortizações regulares
-- **Redução do Prazo**: Quantos anos reduz do prazo do crédito
-- **Tempo Poupado**: Exatamente quantos anos e meses economiza ao fazer amortizações regulares
-- **Visualização Gráfica**: Comparação visual entre o cenário com e sem amortizações extras
-- **Tabela Detalhada**: Evolução anual do capital em dívida, juros pagos e amortizações
-
-#### Fórmula Utilizada
-
-Para calcular a prestação mensal:
-```
-PMT = P × [r × (1 + r)^n] / [(1 + r)^n - 1]
-```
-Onde:
-- PMT = Prestação mensal
-- P = Montante inicial do empréstimo
-- r = Taxa de juro mensal (taxa anual / 12 / 100)
-- n = Número total de prestações (prazo em anos × 12)
-
-### 2. Calculadora de Juros Compostos
-
-Esta calculadora permite simular o crescimento de um investimento ao longo do tempo com juros compostos, mostrando:
-
-- **Montante Final**: Valor total acumulado no final do período
-- **Juros Ganhos**: Quanto dinheiro ganhou em juros
-- **Visualização Gráfica**: Evolução do montante total, contribuições e juros ao longo do tempo
-- **Tabela Detalhada**: Valores anuais de contribuições, juros e montante total
-- **Frequência de Contribuição**: Escolha entre contribuições mensais, trimestrais, semestrais ou anuais
-- **Frequência de Composição dos Juros**: Escolha entre capitalização mensal, trimestral, semestral ou anual
-
-#### Fórmula Utilizada
-
-A calculadora utiliza a fórmula matemática padrão para juros compostos com contribuições periódicas:
+## Estrutura
 
 ```
-FV = P × (1 + r/m)^(m×t) + PMT × [(1 + r/m)^(m×t) - 1] / (r/m)
+index.html, legal.html, manifest.webmanifest, sw.js
+css/styles.css
+js/finance.js      motor de cálculo (funções puras, testado)
+js/i18n.js         traduções PT/EN e formatação
+js/shell.js        tema e idioma
+js/core.js         gráficos, tabelas, CSV
+js/calculator.js   amortização, juros compostos, objetivos
+js/tools.js        habitação, investir vs amortizar, reforma, fundo
+js/features.js     sliders, partilha, guardar, imprimir
+tests/             testes (node:test)
 ```
 
-Onde:
-- FV = Valor futuro (montante final)
-- P = Montante inicial
-- PMT = Contribuição regular
-- r = Taxa de juro anual (em decimal)
-- m = Número de períodos de composição por ano
-- t = Tempo em anos
+## Desenvolvimento
 
-Esta fórmula garante que:
-1. Quanto maior a frequência de composição (m), maior o montante final (FV)
-2. A ordem correta de rendimento é: mensal > trimestral > semestral > anual
-
-
-### 3. Calculadora de Objetivos Financeiros
-
-Esta calculadora permite determinar quanto precisa poupar regularmente para atingir um objetivo financeiro específico, mostrando:
-
-- **Contribuição Necessária**: Quanto precisa poupar regularmente para atingir o objetivo
-- **Montante Total Poupado**: Valor total acumulado no final do período
-- **Visualização Gráfica**: Evolução do montante acumulado em relação ao objetivo
-- **Tabela Detalhada**: Valores anuais de contribuições, rendimentos e montante acumulado
-- **Frequência de Contribuição**: Escolha entre contribuições mensais, trimestrais, semestrais ou anuais
-- **Frequência de Composição dos Juros**: Escolha entre capitalização mensal, trimestral, semestral ou anual
-- **Opção de Juros Compostos**: Possibilidade de alternar entre cálculos com juros simples ou compostos
-
-#### Fórmula Utilizada
-
-Para calcular a contribuição necessária com juros compostos, a calculadora utiliza um método iterativo que considera as diferentes frequências de contribuição e composição:
-
-1. Estima uma contribuição inicial usando a fórmula aproximada:
-   ```
-   PMT = (FV - P × (1 + r/m)^(m×t)) / ((1 + r/m)^(m×t) - 1) × (r/m)
-   ```
-
-2. Refina esta estimativa através de simulações sucessivas até encontrar o valor exato que atinge o objetivo no prazo definido.
-
-Onde:
-- PMT = Contribuição regular necessária
-- FV = Valor futuro (montante objetivo)
-- P = Montante inicial
-- r = Taxa de juro anual (em decimal)
-- m = Número de períodos de composição por ano
-- t = Tempo em anos
-
-Para juros simples:
 ```
-PMT = (FV - P - (P × r × t)) / (n)
+npm test                     # testes do motor e das traduções
+python3 -m http.server 8000  # servir localmente
 ```
-Onde n é o número total de contribuições ao longo do período.
 
-A implementação considera a sincronização precisa entre os momentos de contribuição e os momentos de composição dos juros, garantindo resultados exatos independentemente das combinações de frequências escolhidas.
+## Fórmulas
+
+- Prestação: `PMT = P · r / (1 − (1 + r)^−n)` (r = taxa mensal efetiva, n = meses). Com taxa variável a prestação é recalculada a cada revisão.
+- Juros compostos: `FV = P · (1 + r/m)^(m·t) + PMT · [(1 + r/m)^(m·t) − 1] / (r/m)`.
+- Valor real: `valor / (1 + inflação)^anos`.
+- TAEG: taxa interna de rentabilidade mensal dos fluxos (capital menos comissões vs. prestações e seguros), anualizada. Não inclui imposto do selo.
+- Investir vs. amortizar: nos dois cenários gasta o mesmo por mês; o património é a carteira (líquida de imposto sobre os ganhos) menos a dívida.
+- Reforma: capital necessário = valor presente dos levantamentos crescentes com a inflação.
+
+## Deploy
+
+O workflow `.github/workflows/ci.yml` corre os testes e publica no GitHub Pages. Em Settings → Pages, defina a origem como **GitHub Actions**.
+
+As simulações são indicativas e não constituem aconselhamento financeiro.

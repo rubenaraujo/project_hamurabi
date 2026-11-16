@@ -1,302 +1,696 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hamurabi - Ferramentas Financeiras</title>
-    
-    <!-- Favicon -->
+    <title data-i18n="meta.title">Hamurabi - Ferramentas Financeiras</title>
+    <meta name="description" content="Simule crédito habitação, amortizações, juros compostos, objetivos de poupança, reforma e fundo de emergência. Gratuito, sem registo, com resultados imediatos." data-i18n-attr="content:meta.desc">
+    <meta name="theme-color" content="#0b0b0e">
+    <link rel="canonical" href="https://rubenaraujo.github.io/project_hamurabi/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Hamurabi">
+    <meta property="og:title" content="Hamurabi - Ferramentas Financeiras" data-i18n-attr="content:meta.title">
+    <meta property="og:description" content="Simule crédito habitação, amortizações, juros compostos, objetivos de poupança, reforma e fundo de emergência." data-i18n-attr="content:meta.ogdesc">
+    <meta property="og:url" content="https://rubenaraujo.github.io/project_hamurabi/">
+    <meta property="og:image" content="https://rubenaraujo.github.io/project_hamurabi/images/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="manifest" href="manifest.webmanifest">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
-    
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icon-192.png">
+
+    <script>
+        try { var t = localStorage.getItem('hamurabi.theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    </script>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebApplication",
+                "name": "Hamurabi",
+                "url": "https://rubenaraujo.github.io/project_hamurabi/",
+                "applicationCategory": "FinanceApplication",
+                "operatingSystem": "Any",
+                "inLanguage": ["pt", "en"],
+                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+                "description": "Simuladores financeiros: crédito habitação, amortização, investir ou amortizar, juros compostos, objetivos, reforma e fundo de emergência."
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Os resultados são garantidos?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Não. São simulações indicativas com base nos valores que introduz. As taxas reais, comissões e impostos podem variar." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Os meus dados são enviados para algum servidor?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Não. Todos os cálculos são feitos no seu navegador e as simulações guardadas ficam apenas no seu dispositivo." }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Qual é a diferença entre TAN e TAEG?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "A TAN é só a taxa de juro nominal. A TAEG inclui também comissões e seguros obrigatórios, refletindo o custo total anual do crédito." }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
 </head>
-<body>
+<body id="top">
+    <a class="skip-link" href="#main" data-i18n="a11y.skip">Saltar para o conteúdo</a>
+
     <header>
         <div class="container">
-            <div class="logo">
-                <img src="images/logo.png" alt="Hamurabi Logo" class="site-logo">
-                <h1>Hamurabi</h1>
-            </div>
-            <nav>
+            <a class="logo" href="#top" aria-label="Hamurabi">
+                <img src="images/logo.png" alt="" class="site-logo">
+                <span class="brand">Hamurabi</span>
+            </a>
+            <nav aria-label="Principal" data-i18n-attr="aria-label:nav.label">
                 <ul>
-                    <li><a href="#calculadora-amortizacao">Amortização</a></li>
-                    <li><a href="#calculadora-juros">Juros Compostos</a></li>
-                    <li><a href="#calculadora-objetivos">Objetivos</a></li>
+                    <li><a href="#calculadora-habitacao" data-group="credito" data-i18n="nav.credito">Crédito</a></li>
+                    <li><a href="#calculadora-juros" data-group="investimento" data-i18n="nav.investimento">Investimento</a></li>
+                    <li><a href="#calculadora-reforma" data-group="planeamento" data-i18n="nav.planeamento">Planeamento</a></li>
+                    <li><a href="#como-funciona" data-group="guia" data-i18n="nav.guia">Guia</a></li>
                 </ul>
             </nav>
+            <div class="header-actions">
+                <button type="button" id="simsBtn" class="icon-btn" aria-label="Simulações guardadas" data-i18n-attr="aria-label:sims.open;title:sims.open">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg>
+                    <span class="badge" id="simsCount" hidden>0</span>
+                </button>
+                <button type="button" id="langBtn" class="icon-btn text-btn" aria-label="Change language" data-i18n-attr="aria-label:lang.switch;title:lang.switch">EN</button>
+                <button type="button" id="themeBtn" class="icon-btn" aria-label="Alternar tema" data-i18n-attr="aria-label:theme.toggle;title:theme.toggle">
+                    <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                    <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                </button>
+            </div>
         </div>
     </header>
 
-    <main>
+    <main id="main">
         <section class="hero">
-            <div class="container">
-                <h2>Ferramentas Financeiras Inteligentes</h2>
-                <div class="hero-buttons">
-                    <a href="#calculadora-amortizacao" class="btn">Calculadora de Amortização</a>
-                    <a href="#calculadora-juros" class="btn">Calculadora de Juros Compostos</a>
-                    <a href="#calculadora-objetivos" class="btn">Calculadora de Objetivos</a>
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <span class="eyebrow" data-i18n="hero.eyebrow">Ferramentas financeiras</span>
+                    <h2><span data-i18n="hero.title1">Decida com números,</span> <em data-i18n="hero.title2">não com palpites.</em></h2>
+                    <p data-i18n="hero.desc">Simule crédito, investimentos e planos de poupança. Resultados imediatos, sem registo e sem rodeios.</p>
+                    <div class="hero-buttons">
+                        <a href="#calculadora-habitacao" class="btn" data-i18n="hero.cta">Começar a simular</a>
+                        <a href="#como-funciona" class="btn-ghost" data-i18n="hero.cta2">Como funciona</a>
+                    </div>
+                </div>
+                <div class="hero-cards">
+                    <a href="#calculadora-habitacao" class="tool-card"><span class="tool-num">01</span><strong data-i18n="tool.hab">Crédito habitação</strong><small data-i18n="tool.hab.s">Prestação, TAEG e risco de subida de taxas</small></a>
+                    <a href="#calculadora-amortizacao" class="tool-card"><span class="tool-num">02</span><strong data-i18n="tool.amort">Amortização de crédito</strong><small data-i18n="tool.amort.s">Quanto poupa em juros e em anos</small></a>
+                    <a href="#calculadora-investir-amortizar" class="tool-card"><span class="tool-num">03</span><strong data-i18n="tool.iva">Investir ou amortizar?</strong><small data-i18n="tool.iva.s">Onde rende mais o seu dinheiro</small></a>
+                    <a href="#calculadora-juros" class="tool-card"><span class="tool-num">04</span><strong data-i18n="tool.juros">Juros compostos</strong><small data-i18n="tool.juros.s">O crescimento do seu investimento</small></a>
+                    <a href="#calculadora-objetivos" class="tool-card"><span class="tool-num">05</span><strong data-i18n="tool.obj">Objetivos financeiros</strong><small data-i18n="tool.obj.s">Quanto poupar para chegar lá</small></a>
+                    <a href="#calculadora-reforma" class="tool-card"><span class="tool-num">06</span><strong data-i18n="tool.ref">Poupança para a reforma</strong><small data-i18n="tool.ref.s">Quanto precisa e quanto terá</small></a>
+                    <a href="#calculadora-emergencia" class="tool-card"><span class="tool-num">07</span><strong data-i18n="tool.fun">Fundo de emergência</strong><small data-i18n="tool.fun.s">Meses de despesas protegidos</small></a>
                 </div>
             </div>
         </section>
 
-        <section id="calculadora-amortizacao" class="calculator-section">
+        <!-- 01 Crédito habitação -->
+        <section id="calculadora-habitacao" class="calculator-section" data-group="credito">
             <div class="container">
-                <h2>Calculadora de Amortização de Crédito</h2>
-                <p>Descubra quanto pode poupar ao fazer amortizações regulares no seu crédito</p>
-                
+                <span class="eyebrow">01 · <span data-i18n="grp.credito">Crédito</span></span>
+                <h2 data-i18n="hab.title">Simulador de Crédito Habitação</h2>
+                <p data-i18n="hab.desc">Veja a prestação, o custo total e a TAEG, e teste o que acontece se a Euribor subir.</p>
+
                 <div class="calculator-container">
                     <div class="calculator-inputs">
                         <div class="input-group">
-                            <label for="montanteInicial">Montante Inicial (€)</label>
-                            <input type="number" id="montanteInicial" min="1000" value="150000">
+                            <label for="habValor" data-i18n="l.habValor">Valor do imóvel (€)</label>
+                            <input type="number" id="habValor" min="10000" step="any" value="250000" inputmode="decimal" data-slider="50000,1000000,5000">
                         </div>
-                        
-                        <div class="input-group">
-                            <label for="taxaJuro">Taxa de Juro Anual (%)</label>
-                            <input type="number" id="taxaJuro" min="0.1" step="0.1" value="3.5">
+                        <div class="input-pair">
+                            <div class="input-group">
+                                <label for="habEntrada" data-i18n="l.habEntrada">Entrada (%)</label>
+                                <input type="number" id="habEntrada" min="0" max="95" step="any" value="20" inputmode="decimal" data-slider="0,90,1">
+                            </div>
+                            <div class="input-group">
+                                <label for="habPrazo" data-i18n="l.habPrazo">Prazo (anos)</label>
+                                <input type="number" id="habPrazo" min="1" max="50" step="1" value="30" inputmode="numeric" data-slider="5,40,1">
+                            </div>
                         </div>
-                        
                         <div class="input-group">
-                            <label for="prazoAnos">Prazo (Anos)</label>
-                            <input type="number" id="prazoAnos" min="1" max="50" value="30">
+                            <label for="habTipo" data-i18n="l.habTipo">Tipo de taxa para os resultados</label>
+                            <select id="habTipo">
+                            <option value="variavel" selected data-i18n="o.variavel">Variável</option>
+                            <option value="fixa" data-i18n="o.fixa">Fixa</option>
+                            </select>
                         </div>
-                        
-                        <div class="input-group">
-                            <label for="amortizacaoRegular">Amortização Regular (€)</label>
-                            <input type="number" id="amortizacaoRegular" min="0" value="2000">
+                        <div class="input-subgroup" data-show-when="habTipo=fixa">
+                            <p class="input-section-title" data-i18n="hab.s.fixa">Taxa fixa</p>
+                            <div class="input-group">
+                                <label for="habTaxaFixa" data-i18n="l.habTaxaFixa">TAN fixa (%)</label>
+                                <input type="number" id="habTaxaFixa" min="0" max="20" step="any" value="3.5" inputmode="decimal" data-slider="0,8,0.05">
+                            </div>
                         </div>
-                        
+                        <div class="input-subgroup" data-show-when="habTipo=variavel">
+                            <p class="input-section-title" data-i18n="hab.s.var">Taxa variável</p>
+                            <div class="input-pair">
+                                <div class="input-group">
+                                    <label for="habEuribor" data-i18n="l.habEuribor">Euribor atual (%)</label>
+                                    <input type="number" id="habEuribor" min="-1" max="15" step="any" value="2.2" inputmode="decimal" data-slider="-1,6,0.05">
+                                </div>
+                                <div class="input-group">
+                                    <label for="habSpread" data-i18n="l.habSpread">Spread (%)</label>
+                                    <input type="number" id="habSpread" min="0" max="10" step="any" value="1" inputmode="decimal" data-slider="0,4,0.05">
+                                </div>
+                            </div>
+                            <details class="adv">
+                                <summary data-i18n="hab.s.cenarios">Cenários da Euribor</summary>
+                                <div class="input-group">
+                                    <label for="habRevisao" data-i18n="l.habRevisao">Revisão da taxa</label>
+                                    <select id="habRevisao">
+                                    <option value="6" data-i18n="o.rev6">A cada 6 meses</option>
+                                    <option value="12" selected data-i18n="o.rev12">A cada 12 meses</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label for="habVariacao" data-i18n="l.habVariacao">Variação esperada da Euribor (p.p./ano)</label>
+                                    <input type="number" id="habVariacao" min="-3" max="3" step="any" value="0.1" inputmode="decimal" data-slider="-1,1,0.05">
+                                </div>
+                                <div class="input-group">
+                                    <label for="habChoque" data-i18n="l.habChoque">Teste de stress: subida da Euribor (p.p.)</label>
+                                    <input type="number" id="habChoque" min="0" max="10" step="any" value="2" inputmode="decimal" data-slider="0,5,0.25">
+                                </div>
+                            </details>
+                        </div>
+                        <p class="input-section-title" data-i18n="hab.s.enc">Encargos</p>
+                        <div class="input-pair">
+                            <div class="input-group">
+                                <label for="habSeguros" data-i18n="l.habSeguros">Seguros (vida + multirriscos), €/mês</label>
+                                <input type="number" id="habSeguros" min="0" step="any" value="40" inputmode="decimal">
+                            </div>
+                            <div class="input-group">
+                                <label for="habComissoes" data-i18n="l.habComissoes">Comissões iniciais (€)</label>
+                                <input type="number" id="habComissoes" min="0" step="any" value="600" inputmode="decimal">
+                            </div>
+                        </div>
+                        <button type="button" class="btn" data-calc data-i18n="btn.calc">Calcular</button>
+                    </div>
+
+                    <div class="calculator-results">
+                        <div class="results-summary" aria-live="polite">
+                            <div class="result-item featured"><h3 data-i18n="r.habPrestacao">Prestação mensal inicial</h3><p id="habPrestacao">0 €</p><small id="habPrestacaoSub"></small></div>
+                            <div class="result-item"><h3 data-i18n="r.habTotalJuros">Total de juros</h3><p id="habTotalJuros">0 €</p></div>
+                            <div class="result-item"><h3 data-i18n="r.habTaeg">TAEG</h3><p id="habTaeg">0 %</p></div>
+                            <div class="result-item"><h3 data-i18n="r.habStress">Prestação em stress</h3><p id="habStress">0 €</p><small id="habStressSub"></small></div>
+                        </div>
+                        <p class="insight" id="habInsight"></p>
+                        <div class="chart-container"><canvas id="habChart" role="img"></canvas></div>
+                        <div class="table-block" data-table></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 02 Amortização -->
+        <section id="calculadora-amortizacao" class="calculator-section" data-group="credito">
+            <div class="container">
+                <span class="eyebrow">02 · <span data-i18n="grp.credito">Crédito</span></span>
+                <h2 data-i18n="amort.title">Calculadora de Amortização de Crédito</h2>
+                <p data-i18n="amort.desc">Descubra quanto pode poupar ao fazer amortizações regulares no seu crédito.</p>
+
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
                         <div class="input-group">
-                            <label for="frequenciaAmortizacao">Frequência de Amortização</label>
+                            <label for="montanteInicial" data-i18n="l.montanteInicial">Montante em dívida (€)</label>
+                            <input type="number" id="montanteInicial" min="1000" step="any" value="150000" inputmode="decimal" data-slider="10000,500000,1000">
+                        </div>
+                        <div class="input-group">
+                            <label for="taxaJuro" data-i18n="l.taxaJuro">Taxa de juro anual (%)</label>
+                            <input type="number" id="taxaJuro" min="0" max="25" step="any" value="3.5" inputmode="decimal" data-slider="0,10,0.05">
+                        </div>
+                        <div class="input-group">
+                            <label for="prazoAnos" data-i18n="l.prazoAnos">Prazo (anos)</label>
+                            <input type="number" id="prazoAnos" min="1" max="50" step="1" value="30" inputmode="numeric" data-slider="1,40,1">
+                        </div>
+                        <div class="input-group">
+                            <label for="tipoTaxaAmortizacao" data-i18n="l.tipoTaxaAmortizacao">Tipo de taxa</label>
+                            <select id="tipoTaxaAmortizacao">
+                                <option value="fixa" selected data-i18n="o.fixa">Fixa</option>
+                                <option value="variavel" data-i18n="o.variavel">Variável</option>
+                            </select>
+                        </div>
+                        <div class="input-group" data-show-when="tipoTaxaAmortizacao=variavel">
+                            <label for="variacaoTaxaAmortizacao" data-i18n="l.variacaoTaxaAmortizacao">Variação esperada da taxa (p.p./ano)</label>
+                            <input type="number" id="variacaoTaxaAmortizacao" min="-3" max="3" step="any" value="0.25" inputmode="decimal" data-slider="-1,1,0.05">
+                        </div>
+                        <div class="input-group">
+                            <label for="amortizacaoRegular" data-i18n="l.amortizacaoRegular">Amortização regular (€)</label>
+                            <input type="number" id="amortizacaoRegular" min="0" step="any" value="2000" inputmode="decimal" data-slider="0,20000,100">
+                        </div>
+                        <div class="input-group">
+                            <label for="frequenciaAmortizacao" data-i18n="l.frequenciaAmortizacao">Frequência de amortização</label>
                             <select id="frequenciaAmortizacao">
-                                <option value="anual" selected>Anual</option>
-                                <option value="mensal">Mensal</option>
+                                <option value="anual" selected data-i18n="o.anual">Anual</option>
+                                <option value="semestral" data-i18n="o.semestral">Semestral</option>
+                                <option value="trimestral" data-i18n="o.trimestral">Trimestral</option>
+                                <option value="mensal" data-i18n="o.mensal">Mensal</option>
                             </select>
                         </div>
-                        
-                        <button id="calcular" class="btn">Calcular</button>
+                        <button type="button" class="btn" data-calc data-i18n="btn.calc">Calcular</button>
                     </div>
-                    
+
                     <div class="calculator-results">
-                        <div class="results-summary">
-                            <div class="result-item">
-                                <h3>Poupança Total</h3>
-                                <p id="poupancaTotal">0 €</p>
-                            </div>
-                            <div class="result-item">
-                                <h3>Redução do Prazo</h3>
-                                <p id="reducaoPrazo">0 anos</p>
-                            </div>
+                        <div class="results-summary" aria-live="polite">
+                            <div class="result-item featured"><h3 data-i18n="r.poupancaTotal">Poupança total</h3><p id="poupancaTotal">0 €</p></div>
+                            <div class="result-item"><h3 data-i18n="r.reducaoPrazo">Redução do prazo</h3><p id="reducaoPrazo">0</p></div>
                         </div>
-                        
-                        <div class="tempo-poupado-container">
-                            <p id="tempoPoupado" class="tempo-poupado-mensagem"></p>
-                        </div>
-                        
-                        <div class="chart-container">
-                            <canvas id="amortizacaoChart"></canvas>
-                        </div>
-                        
-                        <div class="toggle-container">
-                            <button id="toggleTable" class="btn-secondary">Ver Tabela Detalhada</button>
-                        </div>
-                        
-                        <div id="tableContainer" class="table-container hidden">
-                            <table id="amortizacaoTable">
-                                <thead>
-                                    <tr>
-                                        <th>Ano</th>
-                                        <th>Prestação Mensal</th>
-                                        <th>Capital em Dívida</th>
-                                        <th>Juros Pagos</th>
-                                        <th>Amortização</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Preenchido via JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
+                        <p class="insight" id="tempoPoupado"></p>
+                        <div class="chart-container"><canvas id="amortizacaoChart" role="img"></canvas></div>
+                        <div class="table-block" data-table></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="calculadora-juros" class="calculator-section">
+        <!-- 03 Investir vs amortizar -->
+        <section id="calculadora-investir-amortizar" class="calculator-section" data-group="credito">
             <div class="container">
-                <h2>Calculadora de Juros Compostos</h2>
-                <p>Calcule o crescimento do seu investimento ao longo do tempo com juros compostos</p>
-                
+                <span class="eyebrow">03 · <span data-i18n="grp.credito">Crédito</span></span>
+                <h2 data-i18n="iva.title">Investir ou Amortizar o Crédito?</h2>
+                <p data-i18n="iva.desc">Compare o património final se usar o dinheiro extra para reduzir a dívida ou para investir.</p>
+
                 <div class="calculator-container">
                     <div class="calculator-inputs">
                         <div class="input-group">
-                            <label for="montanteInicialJuros">Montante Inicial (€)</label>
-                            <input type="number" id="montanteInicialJuros" min="0" value="10000">
+                            <label for="ivaDivida" data-i18n="l.ivaDivida">Capital em dívida (€)</label>
+                            <input type="number" id="ivaDivida" min="1000" step="any" value="120000" inputmode="decimal" data-slider="10000,500000,1000">
                         </div>
-                        
                         <div class="input-group">
-                            <label for="contribuicaoRegular">Contribuição Regular (€)</label>
-                            <input type="number" id="contribuicaoRegular" min="0" value="200">
+                            <label for="ivaTaxa" data-i18n="l.ivaTaxa">Taxa do crédito (%)</label>
+                            <input type="number" id="ivaTaxa" min="0" max="20" step="any" value="4" inputmode="decimal" data-slider="0,10,0.05">
                         </div>
-                        
                         <div class="input-group">
-                            <label for="frequenciaContribuicao">Frequência de Contribuição</label>
+                            <label for="ivaPrazo" data-i18n="l.ivaPrazo">Prazo restante (anos)</label>
+                            <input type="number" id="ivaPrazo" min="1" max="50" step="1" value="25" inputmode="numeric" data-slider="1,40,1">
+                        </div>
+                        <div class="input-group">
+                            <label for="ivaUnico" data-i18n="l.ivaUnico">Montante único disponível (€)</label>
+                            <input type="number" id="ivaUnico" min="0" step="any" value="10000" inputmode="decimal" data-slider="0,100000,500">
+                        </div>
+                        <div class="input-group">
+                            <label for="ivaMensal" data-i18n="l.ivaMensal">Valor extra por mês (€)</label>
+                            <input type="number" id="ivaMensal" min="0" step="any" value="200" inputmode="decimal" data-slider="0,2000,25">
+                        </div>
+                        <div class="input-group">
+                            <label for="ivaRend" data-i18n="l.ivaRend">Rendimento esperado do investimento (%/ano)</label>
+                            <input type="number" id="ivaRend" min="0" max="30" step="any" value="5" inputmode="decimal" data-slider="0,12,0.1">
+                        </div>
+                        <div class="input-group">
+                            <label for="ivaImposto" data-i18n="l.ivaImposto">Imposto sobre os ganhos (%)</label>
+                            <input type="number" id="ivaImposto" min="0" max="60" step="any" value="28" inputmode="decimal">
+                        </div>
+                        <button type="button" class="btn" data-calc data-i18n="btn.calc">Calcular</button>
+                    </div>
+
+                    <div class="calculator-results">
+                        <div class="results-summary" aria-live="polite">
+                            <div class="result-item featured"><h3 data-i18n="r.ivaVeredito">Melhor opção</h3><p id="ivaVeredito">-</p><small id="ivaVereditoSub"></small></div>
+                            <div class="result-item"><h3 data-i18n="r.ivaPatA">Património se amortizar</h3><p id="ivaPatA">0 €</p></div>
+                            <div class="result-item"><h3 data-i18n="r.ivaPatB">Património se investir</h3><p id="ivaPatB">0 €</p></div>
+                            <div class="result-item"><h3 data-i18n="r.ivaBreakeven">Rendimento de equilíbrio</h3><p id="ivaBreakeven">0 %</p><small data-i18n="r.ivaBreakevenSub">Acima disto, investir compensa</small></div>
+                        </div>
+                        <p class="insight" id="ivaInsight"></p>
+                        <div class="chart-container"><canvas id="ivaChart" role="img"></canvas></div>
+                        <div class="table-block" data-table></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 04 Juros compostos -->
+        <section id="calculadora-juros" class="calculator-section" data-group="investimento">
+            <div class="container">
+                <span class="eyebrow">04 · <span data-i18n="grp.investimento">Investimento</span></span>
+                <h2 data-i18n="juros.title">Calculadora de Juros Compostos</h2>
+                <p data-i18n="juros.desc">Calcule o crescimento do seu investimento ao longo do tempo, com a inflação em conta.</p>
+
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="montanteInicialJuros" data-i18n="l.montanteInicialJuros">Montante inicial (€)</label>
+                            <input type="number" id="montanteInicialJuros" min="0" step="any" value="10000" inputmode="decimal" data-slider="0,200000,1000">
+                        </div>
+                        <div class="input-group">
+                            <label for="contribuicaoRegular" data-i18n="l.contribuicaoRegular">Contribuição regular (€)</label>
+                            <input type="number" id="contribuicaoRegular" min="0" step="any" value="200" inputmode="decimal" data-slider="0,2000,10">
+                        </div>
+                        <div class="input-group">
+                            <label for="frequenciaContribuicao" data-i18n="l.frequenciaContribuicao">Frequência de contribuição</label>
                             <select id="frequenciaContribuicao">
-                                <option value="mensal" selected>Mensal</option>
-                                <option value="trimestral">Trimestral</option>
-                                <option value="semestral">Semestral</option>
-                                <option value="anual">Anual</option>
+                                <option value="mensal" selected data-i18n="o.mensal">Mensal</option>
+                                <option value="trimestral" data-i18n="o.trimestral">Trimestral</option>
+                                <option value="semestral" data-i18n="o.semestral">Semestral</option>
+                                <option value="anual" data-i18n="o.anual">Anual</option>
                             </select>
                         </div>
-                        
                         <div class="input-group">
-                            <label for="taxaJurosAnual">Taxa de Juro Anual (%)</label>
-                            <input type="number" id="taxaJurosAnual" min="0.1" step="0.1" value="5">
+                            <label for="taxaJurosAnual" data-i18n="l.taxaJurosAnual">Taxa de juro anual (%)</label>
+                            <input type="number" id="taxaJurosAnual" min="0" max="50" step="any" value="5" inputmode="decimal" data-slider="0,15,0.1">
                         </div>
-                        
                         <div class="input-group">
-                            <label for="frequenciaComposicaoJuros">Frequência de Composição dos Juros</label>
+                            <label for="frequenciaComposicaoJuros" data-i18n="l.frequenciaComposicaoJuros">Frequência de composição dos juros</label>
                             <select id="frequenciaComposicaoJuros">
-                                <option value="mensal" selected>Mensal</option>
-                                <option value="trimestral">Trimestral</option>
-                                <option value="semestral">Semestral</option>
-                                <option value="anual">Anual</option>
+                                <option value="mensal" selected data-i18n="o.mensal">Mensal</option>
+                                <option value="trimestral" data-i18n="o.trimestral">Trimestral</option>
+                                <option value="semestral" data-i18n="o.semestral">Semestral</option>
+                                <option value="anual" data-i18n="o.anual">Anual</option>
                             </select>
                         </div>
-                        
                         <div class="input-group">
-                            <label for="periodoAnos">Período (Anos)</label>
-                            <input type="number" id="periodoAnos" min="1" max="50" value="20">
+                            <label for="periodoAnos" data-i18n="l.periodoAnos">Período (anos)</label>
+                            <input type="number" id="periodoAnos" min="1" max="60" step="1" value="20" inputmode="numeric" data-slider="1,50,1">
                         </div>
-                        
-                        <button id="calcularJuros" class="btn">Calcular</button>
+                        <div class="input-group">
+                            <label for="inflacaoJuros" data-i18n="l.inflacaoJuros">Inflação anual (%)</label>
+                            <input type="number" id="inflacaoJuros" min="0" max="30" step="any" value="2" inputmode="decimal" data-slider="0,10,0.1">
+                        </div>
+                        <div class="input-group checkbox-group">
+                            <label for="compararJuros"><input type="checkbox" id="compararJuros"> <span data-i18n="l.compararJuros">Comparar com outro cenário</span></label>
+                        </div>
+                        <div class="input-group" data-show-when="compararJuros=on">
+                            <label for="taxaJurosB" data-i18n="l.taxaJurosB">Cenário B: taxa de juro anual (%)</label>
+                            <input type="number" id="taxaJurosB" min="0" max="50" step="any" value="7" inputmode="decimal" data-slider="0,15,0.1">
+                        </div>
+                        <div class="input-group" data-show-when="compararJuros=on">
+                            <label for="contribuicaoRegularB" data-i18n="l.contribuicaoRegularB">Cenário B: contribuição regular (€)</label>
+                            <input type="number" id="contribuicaoRegularB" min="0" step="any" value="200" inputmode="decimal" data-slider="0,2000,10">
+                        </div>
+                        <button type="button" class="btn" data-calc data-i18n="btn.calc">Calcular</button>
                     </div>
-                    
+
                     <div class="calculator-results">
-                        <div class="results-summary">
-                            <div class="result-item">
-                                <h3>Montante Final</h3>
-                                <p id="montanteFinal">0 €</p>
-                            </div>
-                            <div class="result-item">
-                                <h3>Juros Ganhos</h3>
-                                <p id="jurosGanhos">0 €</p>
-                            </div>
+                        <div class="results-summary" aria-live="polite">
+                            <div class="result-item featured"><h3 data-i18n="r.montanteFinal">Montante final</h3><p id="montanteFinal">0 €</p></div>
+                            <div class="result-item"><h3 data-i18n="r.jurosGanhos">Juros ganhos</h3><p id="jurosGanhos">0 €</p></div>
+                            <div class="result-item"><h3 data-i18n="r.montanteFinalReal">Valor real</h3><p id="montanteFinalReal">0 €</p><small data-i18n="r.realSub">Em poder de compra de hoje</small></div>
+                            <div class="result-item" data-show-when="compararJuros=on"><h3 data-i18n="r.montanteFinalB">Cenário B</h3><p id="montanteFinalB">0 €</p><small id="montanteFinalBSub"></small></div>
                         </div>
-                        
-                        <div class="chart-container">
-                            <canvas id="jurosCompostosChart"></canvas>
-                        </div>
-                        
-                        <div class="toggle-container">
-                            <button id="toggleJurosTable" class="btn-secondary">Ver Tabela Detalhada</button>
-                        </div>
-                        
-                        <div id="jurosTableContainer" class="table-container hidden">
-                            <table id="jurosCompostosTable">
-                                <thead>
-                                    <tr>
-                                        <th>Ano</th>
-                                        <th>Contribuições</th>
-                                        <th>Juros</th>
-                                        <th>Montante Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Preenchido via JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
+                        <div class="chart-container"><canvas id="jurosCompostosChart" role="img"></canvas></div>
+                        <div class="table-block" data-table></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="calculadora-objetivos" class="calculator-section">
+        <!-- 05 Objetivos -->
+        <section id="calculadora-objetivos" class="calculator-section" data-group="investimento">
             <div class="container">
-                <h2>Calculadora de Objetivos Financeiros</h2>
-                <p>Descubra quanto precisa poupar regularmente para atingir o seu objetivo financeiro</p>
-                
+                <span class="eyebrow">05 · <span data-i18n="grp.investimento">Investimento</span></span>
+                <h2 data-i18n="obj.title">Calculadora de Objetivos Financeiros</h2>
+                <p data-i18n="obj.desc">Descubra quanto precisa poupar regularmente para atingir o seu objetivo.</p>
+
                 <div class="calculator-container">
                     <div class="calculator-inputs">
                         <div class="input-group">
-                            <label for="montanteObjetivo">Montante Objetivo (€)</label>
-                            <input type="number" id="montanteObjetivo" min="1000" value="100000">
+                            <label for="montanteObjetivo" data-i18n="l.montanteObjetivo">Montante objetivo (€)</label>
+                            <input type="number" id="montanteObjetivo" min="1000" step="any" value="100000" inputmode="decimal" data-slider="5000,1000000,5000">
                         </div>
-                        
                         <div class="input-group">
-                            <label for="montanteInicialObjetivo">Montante Inicial (€)</label>
-                            <input type="number" id="montanteInicialObjetivo" min="0" value="10000">
+                            <label for="montanteInicialObjetivo" data-i18n="l.montanteInicialObjetivo">Montante inicial (€)</label>
+                            <input type="number" id="montanteInicialObjetivo" min="0" step="any" value="10000" inputmode="decimal" data-slider="0,200000,1000">
                         </div>
-                        
                         <div class="input-group">
-                            <label for="prazoObjetivo">Prazo (Anos)</label>
-                            <input type="number" id="prazoObjetivo" min="1" max="50" value="10">
+                            <label for="prazoObjetivo" data-i18n="l.prazoObjetivo">Prazo (anos)</label>
+                            <input type="number" id="prazoObjetivo" min="1" max="60" step="1" value="10" inputmode="numeric" data-slider="1,40,1">
                         </div>
-                        
                         <div class="input-group">
-                            <label for="taxaJuroObjetivo">Taxa de Rendimento Anual (%)</label>
-                            <input type="number" id="taxaJuroObjetivo" min="0" step="0.1" value="4">
+                            <label for="taxaJuroObjetivo" data-i18n="l.taxaJuroObjetivo">Taxa de rendimento anual (%)</label>
+                            <input type="number" id="taxaJuroObjetivo" min="0" max="50" step="any" value="4" inputmode="decimal" data-slider="0,15,0.1">
                         </div>
-                        
                         <div class="input-group">
-                            <label for="frequenciaContribuicaoObjetivo">Frequência de Contribuição</label>
+                            <label for="inflacaoObjetivo" data-i18n="l.inflacaoObjetivo">Inflação anual (%, 0 para ignorar)</label>
+                            <input type="number" id="inflacaoObjetivo" min="0" max="30" step="any" value="0" inputmode="decimal" data-slider="0,10,0.1">
+                        </div>
+                        <div class="input-group">
+                            <label for="frequenciaContribuicaoObjetivo" data-i18n="l.frequenciaContribuicao">Frequência de contribuição</label>
                             <select id="frequenciaContribuicaoObjetivo">
-                                <option value="mensal" selected>Mensal</option>
-                                <option value="trimestral">Trimestral</option>
-                                <option value="semestral">Semestral</option>
-                                <option value="anual">Anual</option>
+                                <option value="mensal" selected data-i18n="o.mensal">Mensal</option>
+                                <option value="trimestral" data-i18n="o.trimestral">Trimestral</option>
+                                <option value="semestral" data-i18n="o.semestral">Semestral</option>
+                                <option value="anual" data-i18n="o.anual">Anual</option>
                             </select>
                         </div>
-                        
                         <div class="input-group">
-                            <label for="frequenciaComposicaoJurosObjetivo">Frequência de Composição dos Juros</label>
+                            <label for="frequenciaComposicaoJurosObjetivo" data-i18n="l.frequenciaComposicaoJuros">Frequência de composição dos juros</label>
                             <select id="frequenciaComposicaoJurosObjetivo">
-                                <option value="mensal" selected>Mensal</option>
-                                <option value="trimestral">Trimestral</option>
-                                <option value="semestral">Semestral</option>
-                                <option value="anual">Anual</option>
+                                <option value="mensal" selected data-i18n="o.mensal">Mensal</option>
+                                <option value="trimestral" data-i18n="o.trimestral">Trimestral</option>
+                                <option value="semestral" data-i18n="o.semestral">Semestral</option>
+                                <option value="anual" data-i18n="o.anual">Anual</option>
                             </select>
                         </div>
-                        
                         <div class="input-group checkbox-group">
-                            <label for="jurosCompostosObjetivo">
-                                <input type="checkbox" id="jurosCompostosObjetivo" checked>
-                                Aplicar Juros Compostos
-                            </label>
+                            <label for="jurosCompostosObjetivo"><input type="checkbox" id="jurosCompostosObjetivo" checked> <span data-i18n="l.jurosCompostosObjetivo">Aplicar juros compostos</span></label>
                         </div>
-                        
-                        <button id="calcularObjetivo" class="btn">Calcular</button>
+                        <button type="button" class="btn" data-calc data-i18n="btn.calc">Calcular</button>
                     </div>
-                    
+
                     <div class="calculator-results">
-                        <div class="results-summary">
-                            <div class="result-item">
-                                <h3>Contribuição Necessária</h3>
-                                <p id="contribuicaoNecessaria">0 €</p>
-                            </div>
-                            <div class="result-item">
-                                <h3>Montante Total Poupado</h3>
-                                <p id="montanteTotalPoupado">0 €</p>
-                            </div>
+                        <div class="results-summary" aria-live="polite">
+                            <div class="result-item featured"><h3 data-i18n="r.contribuicaoNecessaria">Contribuição necessária</h3><p id="contribuicaoNecessaria">0 €</p><small id="contribuicaoNecessariaSub"></small></div>
+                            <div class="result-item"><h3 data-i18n="r.montanteTotalPoupado">Montante total poupado</h3><p id="montanteTotalPoupado">0 €</p></div>
                         </div>
-                        
-                        <div class="chart-container">
-                            <canvas id="objetivosChart"></canvas>
-                        </div>
-                        
-                        <div class="toggle-container">
-                            <!-- Botão de tabela detalhada removido conforme solicitado -->
-                            </table>
-                        </div>
+                        <p class="insight" id="objetivoInsight"></p>
+                        <div class="chart-container"><canvas id="objetivosChart" role="img"></canvas></div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 06 Reforma -->
+        <section id="calculadora-reforma" class="calculator-section" data-group="planeamento">
+            <div class="container">
+                <span class="eyebrow">06 · <span data-i18n="grp.planeamento">Planeamento</span></span>
+                <h2 data-i18n="ref.title">Poupança para a Reforma</h2>
+                <p data-i18n="ref.desc">Veja se o que poupa chega para o rendimento que quer na reforma, em valores de hoje.</p>
+
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="refIdade" data-i18n="l.refIdade">Idade atual</label>
+                            <input type="number" id="refIdade" min="16" max="90" step="1" value="30" inputmode="numeric" data-slider="18,70,1">
+                        </div>
+                        <div class="input-group">
+                            <label for="refIdadeReforma" data-i18n="l.refIdadeReforma">Idade de reforma</label>
+                            <input type="number" id="refIdadeReforma" min="40" max="80" step="1" value="67" inputmode="numeric" data-slider="50,75,1">
+                        </div>
+                        <div class="input-group">
+                            <label for="refEsperanca" data-i18n="l.refEsperanca">Planear até aos (anos)</label>
+                            <input type="number" id="refEsperanca" min="60" max="110" step="1" value="90" inputmode="numeric" data-slider="70,105,1">
+                        </div>
+                        <div class="input-group">
+                            <label for="refPoupanca" data-i18n="l.refPoupanca">Poupança atual (€)</label>
+                            <input type="number" id="refPoupanca" min="0" step="any" value="5000" inputmode="decimal" data-slider="0,300000,1000">
+                        </div>
+                        <div class="input-group">
+                            <label for="refContrib" data-i18n="l.refContrib">Contribuição mensal (€)</label>
+                            <input type="number" id="refContrib" min="0" step="any" value="300" inputmode="decimal" data-slider="0,3000,25">
+                        </div>
+                        <div class="input-group checkbox-group">
+                            <label for="refIndexar"><input type="checkbox" id="refIndexar" checked> <span data-i18n="l.refIndexar">Contribuição acompanha a inflação</span></label>
+                        </div>
+                        <div class="input-group">
+                            <label for="refRend" data-i18n="l.refRend">Rendimento antes da reforma (%/ano)</label>
+                            <input type="number" id="refRend" min="0" max="30" step="any" value="5" inputmode="decimal" data-slider="0,12,0.1">
+                        </div>
+                        <div class="input-group">
+                            <label for="refRendReforma" data-i18n="l.refRendReforma">Rendimento durante a reforma (%/ano)</label>
+                            <input type="number" id="refRendReforma" min="0" max="30" step="any" value="3" inputmode="decimal" data-slider="0,10,0.1">
+                        </div>
+                        <div class="input-group">
+                            <label for="refInflacao" data-i18n="l.refInflacao">Inflação anual (%)</label>
+                            <input type="number" id="refInflacao" min="0" max="30" step="any" value="2" inputmode="decimal" data-slider="0,8,0.1">
+                        </div>
+                        <div class="input-group">
+                            <label for="refDesejado" data-i18n="l.refDesejado">Rendimento mensal desejado (€ de hoje)</label>
+                            <input type="number" id="refDesejado" min="0" step="any" value="1500" inputmode="decimal" data-slider="500,6000,50">
+                        </div>
+                        <div class="input-group">
+                            <label for="refPensao" data-i18n="l.refPensao">Pensão pública estimada (€ de hoje/mês)</label>
+                            <input type="number" id="refPensao" min="0" step="any" value="700" inputmode="decimal" data-slider="0,4000,50">
+                        </div>
+                        <button type="button" class="btn" data-calc data-i18n="btn.calc">Calcular</button>
+                    </div>
+
+                    <div class="calculator-results">
+                        <p class="form-error" id="refErro" role="alert" hidden></p>
+                        <div class="results-summary" aria-live="polite">
+                            <div class="result-item featured"><h3 data-i18n="r.refCapital">Capital na reforma</h3><p id="refCapital">0 €</p><small id="refCapitalSub"></small></div>
+                            <div class="result-item"><h3 data-i18n="r.refNecessario">Capital necessário</h3><p id="refNecessario">0 €</p><small data-i18n="r.realSub">Em poder de compra de hoje</small></div>
+                            <div class="result-item"><h3 data-i18n="r.refRenda">Rendimento mensal sustentável</h3><p id="refRenda">0 €</p><small data-i18n="r.refRendaSub">Pensão incluída, valores de hoje</small></div>
+                            <div class="result-item"><h3 data-i18n="r.refContribNec">Contribuição necessária</h3><p id="refContribNec">0 €</p><small data-i18n="r.refContribNecSub">Por mês, para atingir o objetivo</small></div>
+                        </div>
+                        <p class="insight" id="refInsight"></p>
+                        <div class="chart-container"><canvas id="refChart" role="img"></canvas></div>
+                        <div class="table-block" data-table></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 07 Fundo de emergência -->
+        <section id="calculadora-emergencia" class="calculator-section" data-group="planeamento">
+            <div class="container">
+                <span class="eyebrow">07 · <span data-i18n="grp.planeamento">Planeamento</span></span>
+                <h2 data-i18n="fun.title">Fundo de Emergência</h2>
+                <p data-i18n="fun.desc">Quantos meses de despesas tem protegidos e quanto falta para a sua rede de segurança.</p>
+
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="funDespesas" data-i18n="l.funDespesas">Despesas essenciais por mês (€)</label>
+                            <input type="number" id="funDespesas" min="1" step="any" value="1200" inputmode="decimal" data-slider="300,5000,50">
+                        </div>
+                        <div class="input-group">
+                            <label for="funMeses" data-i18n="l.funMeses">Meses de cobertura pretendidos</label>
+                            <input type="number" id="funMeses" min="1" max="36" step="1" value="6" inputmode="numeric" data-slider="1,24,1">
+                        </div>
+                        <div class="input-group">
+                            <label for="funAtual" data-i18n="l.funAtual">Poupança atual (€)</label>
+                            <input type="number" id="funAtual" min="0" step="any" value="3000" inputmode="decimal" data-slider="0,50000,250">
+                        </div>
+                        <div class="input-group">
+                            <label for="funMensal" data-i18n="l.funMensal">Quanto consegue poupar por mês (€)</label>
+                            <input type="number" id="funMensal" min="0" step="any" value="200" inputmode="decimal" data-slider="0,2000,10">
+                        </div>
+                        <div class="input-group">
+                            <label for="funRend" data-i18n="l.funRend">Rendimento da conta poupança (%/ano)</label>
+                            <input type="number" id="funRend" min="0" max="20" step="any" value="1.5" inputmode="decimal" data-slider="0,5,0.1">
+                        </div>
+                        <button type="button" class="btn" data-calc data-i18n="btn.calc">Calcular</button>
+                    </div>
+
+                    <div class="calculator-results">
+                        <div class="results-summary" aria-live="polite">
+                            <div class="result-item featured"><h3 data-i18n="r.funMeta">Meta do fundo</h3><p id="funMeta">0 €</p></div>
+                            <div class="result-item"><h3 data-i18n="r.funFalta">Falta poupar</h3><p id="funFalta">0 €</p></div>
+                            <div class="result-item"><h3 data-i18n="r.funTempo">Tempo para atingir</h3><p id="funTempo">-</p></div>
+                            <div class="result-item"><h3 data-i18n="r.funCobertura">Cobertura atual</h3><p id="funCobertura">0</p></div>
+                        </div>
+                        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="funProgresso" aria-label="Progresso" data-i18n-attr="aria-label:r.funProgresso">
+                            <div class="progress-bar" id="funProgressoBar"></div>
+                        </div>
+                        <p class="insight" id="funInsight"></p>
+                        <div class="chart-container"><canvas id="funChart" role="img"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guia -->
+        <section id="como-funciona" class="guide-section" data-group="guia">
+            <div class="container">
+                <span class="eyebrow" data-i18n="guide.eyebrow">Guia</span>
+                <h2 data-i18n="guide.title">Como funciona</h2>
+                <div class="guide-grid">
+                    <article class="guide-card">
+                        <h3 data-i18n="tool.hab">Crédito habitação</h3>
+                        <div class="lang-pt"><p>A prestação segue a fórmula de amortização com prestações constantes. Na taxa variável, a taxa (Euribor + spread) é revista periodicamente e a prestação é recalculada sobre o capital em dívida. A TAEG é a taxa interna de rentabilidade dos fluxos: o capital recebido (menos comissões) contra as prestações e seguros pagos. Não inclui imposto do selo.</p></div>
+                        <div class="lang-en"><p>The payment follows the constant-payment amortization formula. With a variable rate, the rate (Euribor + spread) is reset periodically and the payment is recalculated on the outstanding balance. The APRC is the internal rate of return of the cash flows: the amount received (minus fees) against payments and insurance. Stamp duty is not included.</p></div>
+                        <code>PMT = P · r / (1 − (1 + r)<sup>−n</sup>)</code>
+                    </article>
+                    <article class="guide-card">
+                        <h3 data-i18n="tool.amort">Amortização de crédito</h3>
+                        <div class="lang-pt"><p>Simula o crédito mês a mês. Cada amortização extra reduz o capital em dívida e, mantendo-se a prestação, encurta o prazo. Com taxa variável, a taxa muda uma vez por ano e a prestação acompanha.</p></div>
+                        <div class="lang-en"><p>Simulates the loan month by month. Each extra repayment reduces the outstanding balance and, as the payment stays the same, shortens the term. With a variable rate, the rate changes once a year and the payment follows.</p></div>
+                        <code>juros<sub>mês</sub> = saldo · taxa / 12</code>
+                    </article>
+                    <article class="guide-card">
+                        <h3 data-i18n="tool.iva">Investir ou amortizar?</h3>
+                        <div class="lang-pt"><p>Nos dois cenários gasta o mesmo por mês; muda apenas o destino do dinheiro extra. O património é o valor da carteira (já líquido de imposto) menos a dívida. O rendimento de equilíbrio é aquele em que os dois cenários empatam.</p></div>
+                        <div class="lang-en"><p>In both scenarios you spend the same each month; only the destination of the extra money changes. Net worth is the portfolio value (after tax) minus the debt. The break-even return is the one at which both scenarios tie.</p></div>
+                        <code>património = carteira líquida − dívida</code>
+                    </article>
+                    <article class="guide-card">
+                        <h3 data-i18n="tool.juros">Juros compostos</h3>
+                        <div class="lang-pt"><p>Os juros ganhos passam a render também juros. O valor real desconta a inflação, mostrando o poder de compra do montante final em euros de hoje.</p></div>
+                        <div class="lang-en"><p>Interest earned also earns interest. The real value discounts inflation, showing the purchasing power of the final amount in today's euros.</p></div>
+                        <code>FV = P · (1 + r/m)<sup>m·t</sup> + PMT · [(1 + r/m)<sup>m·t</sup> − 1] / (r/m)</code>
+                    </article>
+                    <article class="guide-card">
+                        <h3 data-i18n="tool.obj">Objetivos financeiros</h3>
+                        <div class="lang-pt"><p>Calcula a contribuição periódica que, com os juros, atinge o objetivo no prazo definido. Se indicar inflação, o objetivo é corrigido para o poder de compra futuro.</p></div>
+                        <div class="lang-en"><p>Calculates the periodic contribution that, with interest, reaches the goal within the chosen term. If you enter inflation, the goal is adjusted to future purchasing power.</p></div>
+                        <code>PMT = (FV − P·(1 + i)<sup>n</sup>) · i / ((1 + i)<sup>n</sup> − 1)</code>
+                    </article>
+                    <article class="guide-card">
+                        <h3 data-i18n="tool.ref">Poupança para a reforma</h3>
+                        <div class="lang-pt"><p>Duas fases: acumulação (com contribuições, opcionalmente indexadas à inflação) e levantamentos mensais que crescem com a inflação até à idade planeada. Os resultados são apresentados em euros de hoje.</p></div>
+                        <div class="lang-en"><p>Two phases: accumulation (with contributions, optionally indexed to inflation) and monthly withdrawals that grow with inflation up to the planned age. Results are shown in today's euros.</p></div>
+                        <code>capital = Σ gasto<sub>m</sub> / (1 + r)<sup>m</sup></code>
+                    </article>
+                    <article class="guide-card">
+                        <h3 data-i18n="tool.fun">Fundo de emergência</h3>
+                        <div class="lang-pt"><p>A meta é o número de meses de despesas essenciais que quer ter protegidos. Em Portugal, 3 a 6 meses é o habitual; mais se o rendimento for instável. Poupe numa conta de acesso imediato.</p></div>
+                        <div class="lang-en"><p>The goal is the number of months of essential expenses you want covered. 3 to 6 months is typical; more if your income is unstable. Keep it in an instant-access account.</p></div>
+                        <code>meta = despesas × meses</code>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="faq-section" data-group="guia">
+            <div class="container faq-grid">
+                <div>
+                    <span class="eyebrow">FAQ</span>
+                    <h2 data-i18n="faq.title">Perguntas frequentes</h2>
+                    <div class="lang-pt">
+                        <details><summary>Os resultados são garantidos?</summary><p>Não. São simulações indicativas com base nos valores que introduz. Taxas, comissões e impostos reais podem variar. Não constituem aconselhamento financeiro.</p></details>
+                        <details><summary>Os meus dados são enviados para algum servidor?</summary><p>Não. Todos os cálculos acontecem no seu navegador. As simulações guardadas ficam apenas no seu dispositivo (armazenamento local).</p></details>
+                        <details><summary>Como partilho uma simulação?</summary><p>Use o botão «Partilhar» por baixo dos resultados. Copia uma ligação com os valores preenchidos.</p></details>
+                        <details><summary>O site funciona sem internet?</summary><p>Sim, depois da primeira visita. Pode também instalá-lo como aplicação no telemóvel ou computador.</p></details>
+                        <details><summary>Posso guardar o resultado em PDF?</summary><p>Sim. Use «Imprimir / PDF» e escolha «Guardar como PDF» na janela de impressão.</p></details>
+                    </div>
+                    <div class="lang-en">
+                        <details><summary>Are the results guaranteed?</summary><p>No. They are indicative simulations based on the values you enter. Actual rates, fees and taxes may vary. They are not financial advice.</p></details>
+                        <details><summary>Is my data sent to any server?</summary><p>No. All calculations happen in your browser. Saved simulations stay on your device only (local storage).</p></details>
+                        <details><summary>How do I share a simulation?</summary><p>Use the "Share" button below the results. It copies a link with the values filled in.</p></details>
+                        <details><summary>Does the site work offline?</summary><p>Yes, after the first visit. You can also install it as an app on your phone or computer.</p></details>
+                        <details><summary>Can I save the result as a PDF?</summary><p>Yes. Use "Print / PDF" and choose "Save as PDF" in the print dialog.</p></details>
+                    </div>
+                </div>
+                <div>
+                    <span class="eyebrow" data-i18n="gloss.eyebrow">Glossário</span>
+                    <h2 data-i18n="gloss.title">Termos essenciais</h2>
+                    <dl class="lang-pt">
+                        <dt>TAN</dt><dd>Taxa anual nominal: a taxa de juro do contrato, sem comissões nem seguros.</dd>
+                        <dt>TAEG</dt><dd>Taxa anual de encargos efetiva global: o custo total anual do crédito, incluindo comissões e seguros.</dd>
+                        <dt>Euribor</dt><dd>Taxa de referência do mercado interbancário que serve de base aos créditos de taxa variável.</dd>
+                        <dt>Spread</dt><dd>Margem fixa do banco somada à Euribor.</dd>
+                        <dt>Amortização</dt><dd>Parte da prestação (ou pagamento extra) que reduz o capital em dívida.</dd>
+                        <dt>Juros compostos</dt><dd>Juros calculados sobre o capital inicial e sobre os juros já acumulados.</dd>
+                        <dt>Inflação</dt><dd>Subida geral dos preços. Reduz o poder de compra do dinheiro ao longo do tempo.</dd>
+                        <dt>Valor real</dt><dd>Montante expresso em euros de hoje, descontada a inflação.</dd>
+                    </dl>
+                    <dl class="lang-en">
+                        <dt>Nominal rate</dt><dd>The contract's interest rate, without fees or insurance.</dd>
+                        <dt>APRC</dt><dd>Annual percentage rate of charge: the total yearly cost of the loan, including fees and insurance.</dd>
+                        <dt>Euribor</dt><dd>Interbank reference rate used as the base for variable-rate loans.</dd>
+                        <dt>Spread</dt><dd>The bank's fixed margin added to the Euribor.</dd>
+                        <dt>Amortization</dt><dd>The part of a payment (or extra payment) that reduces the outstanding principal.</dd>
+                        <dt>Compound interest</dt><dd>Interest calculated on the initial capital and on the interest already accumulated.</dd>
+                        <dt>Inflation</dt><dd>The general rise in prices. It reduces the purchasing power of money over time.</dd>
+                        <dt>Real value</dt><dd>An amount expressed in today's euros, with inflation discounted.</dd>
+                    </dl>
                 </div>
             </div>
         </section>
@@ -304,11 +698,44 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Hamurabi - Developed by Ruben</p>
+            <p class="disclaimer" data-i18n="footer.disclaimer">As simulações são meramente indicativas e não constituem aconselhamento financeiro. Os valores reais dependem das condições de cada instituição.</p>
+            <div class="footer-inner">
+                <div class="logo"><img src="images/logo.png" alt="" class="site-logo"><span>Hamurabi</span></div>
+                <p>&copy; 2025 Hamurabi &middot; Developed by Ruben &middot; <a href="legal.html" data-i18n="footer.legal">Aviso legal e privacidade</a></p>
+            </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <dialog id="saveDialog" aria-labelledby="saveTitle">
+        <form method="dialog" id="saveForm">
+            <h3 id="saveTitle" data-i18n="save.title">Guardar simulação</h3>
+            <label for="saveName" data-i18n="save.name">Nome</label>
+            <input type="text" id="saveName" maxlength="60" autocomplete="off">
+            <div class="dialog-actions">
+                <button type="submit" value="cancel" class="btn-ghost" formnovalidate data-i18n="btn.cancel">Cancelar</button>
+                <button type="submit" value="ok" class="btn" data-i18n="btn.save">Guardar</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="simsDialog" aria-labelledby="simsTitle">
+        <h3 id="simsTitle" data-i18n="sims.title">Simulações guardadas</h3>
+        <p id="simsEmpty" class="muted" data-i18n="sims.empty">Ainda não guardou nenhuma simulação.</p>
+        <ul id="simsList"></ul>
+        <div class="dialog-actions">
+            <form method="dialog"><button class="btn-ghost" data-i18n="btn.close">Fechar</button></form>
+        </div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="js/vendor/chart.umd.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/shell.js"></script>
+    <script src="js/finance.js"></script>
+    <script src="js/core.js"></script>
     <script src="js/calculator.js"></script>
+    <script src="js/tools.js"></script>
+    <script src="js/features.js"></script>
 </body>
 </html>
