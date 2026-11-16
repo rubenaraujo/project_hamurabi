@@ -31,8 +31,8 @@
 
     // ---------- Gráficos ----------
     const PALETAS = {
-        dark: { gold: '#f3d19c', blue: '#7fb7c9', green: '#7fd1a0', red: '#e8786e', alt: '#c9a7f0', text: '#9a98a3', grid: 'rgba(255,255,255,0.06)', tooltipBg: '#1b1b23', tooltipText: '#f3f1ec', tooltipBorder: 'rgba(243,209,156,0.35)' },
-        light: { gold: '#a8741a', blue: '#2f7d99', green: '#2b8a57', red: '#cc4a3d', alt: '#7d57b8', text: '#6b665c', grid: 'rgba(20,16,8,0.08)', tooltipBg: '#ffffff', tooltipText: '#1b1710', tooltipBorder: 'rgba(168,116,26,0.45)' }
+        dark: { gold: '#d9946a', blue: '#7fb7c9', green: '#7fd1a0', red: '#e8786e', alt: '#c9a7f0', text: '#9a98a3', grid: 'rgba(255,255,255,0.06)', tooltipBg: '#1b1b23', tooltipText: '#f3f1ec', tooltipBorder: 'rgba(243,209,156,0.35)' },
+        light: { gold: '#a65f38', blue: '#2f7d99', green: '#2b8a57', red: '#cc4a3d', alt: '#7d57b8', text: '#6b665c', grid: 'rgba(20,16,8,0.08)', tooltipBg: '#ffffff', tooltipText: '#1b1710', tooltipBorder: 'rgba(168,116,26,0.45)' }
     };
     H.paleta = function () { return PALETAS[H.theme.get()]; };
 
