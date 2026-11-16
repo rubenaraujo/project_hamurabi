@@ -1,9 +1,9 @@
 // Service worker: funcionamento offline com cache "stale-while-revalidate".
-const CACHE = 'hamurabi-v2';
+const CACHE = 'hamurabi-v3';
 const ASSETS = [
     './', 'index.html', 'legal.html', 'css/styles.css', 'manifest.webmanifest',
     'js/i18n.js', 'js/shell.js', 'js/finance.js', 'js/core.js', 'js/calculator.js', 'js/tools.js', 'js/features.js',
-    'js/vendor/chart.umd.js', 'images/logo.png', 'images/icon-192.png', 'images/icon-512.png', 'favicon.ico'
+    'js/vendor/chart.umd.js', 'images/logo.png','images/mark.png', 'images/icon-192.png', 'images/icon-512.png', 'favicon.ico'
 ];
 
 self.addEventListener('install', function (e) {
