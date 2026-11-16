@@ -1,5 +1,5 @@
 // Service worker: funcionamento offline com cache "stale-while-revalidate".
-const CACHE = 'hamurabi-v1';
+const CACHE = 'hamurabi-v2';
 const ASSETS = [
     './', 'index.html', 'legal.html', 'css/styles.css', 'manifest.webmanifest',
     'js/i18n.js', 'js/shell.js', 'js/finance.js', 'js/core.js', 'js/calculator.js', 'js/tools.js', 'js/features.js',
